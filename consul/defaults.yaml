@@ -1,0 +1,7 @@
+consul:
+  server: false
+  client: false
+  service: false
+  token: ""
+  bootstrap: 1
+  datacenter: "main"

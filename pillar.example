@@ -1,0 +1,6 @@
+consul:
+  server: true
+  service: true
+  token: "RIxqpNlOXqtr/j4BgvIMEw=="
+  bootstrap: 3
+  datacenter: "eu"
