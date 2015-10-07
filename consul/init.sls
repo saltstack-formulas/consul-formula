@@ -63,11 +63,11 @@ consul_data_dir:
     - user: consul
     - group: consul
 
-consul_common_config:
+consul_config:
   file.managed:
-    - source: salt://consul/files/common.json
+    - source: salt://consul/files/config.json
     - template: jinja
-    - name: /etc/consul.d/common.json
+    - name: /etc/consul.d/config.json
     {% if consul.service != False %}
     - watch_in:
        - service: consul
@@ -76,22 +76,6 @@ consul_common_config:
     - group: consul
     - require:
       - user: consul
-
-{% if consul.server != False %}
-consul_server_config:
-  file.managed:
-    - source: salt://consul/files/server.json
-    - name: /etc/consul.d/server.json
-    - template: jinja
-    {% if consul.service != False %}
-    - watch_in:
-       - service: consul
-    {% endif %}
-    - user: consul
-    - group: consul
-    - require:
-      - user: consul
-{% endif %}
 
 {% if consul.service != False %}
 consul_service:

@@ -1,5 +1,0 @@
-{
-    "server": true,
-    "bootstrap_expect": {{ salt['pillar.get']('consul:bootstrap') }},
-    "datacenter": "{{ salt['pillar.get']('consul:datacenter') }}"
-}

@@ -1,7 +1,10 @@
 consul:
-  server: false
-  client: false
   service: false
-  token: ""
-  bootstrap: 1
-  datacenter: "main"
+  config:
+    server: false
+    bind_addr: 0.0.0.0
+    data_dir: /var/consul
+    ui_dir: /opt/consul/dist
+    enable_debug: false
+    log_level: info
+    encrypt: ""

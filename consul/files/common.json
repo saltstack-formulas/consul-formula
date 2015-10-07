@@ -1,7 +1,0 @@
-{
-    "data_dir": "/var/consul",
-    "ui_dir": "/opt/consul/dist",
-    "enable_debug": true,
-    "log_level": "info",
-    "encrypt": "{{ salt['pillar.get']('consul:token') }}"
-}
