@@ -2,8 +2,12 @@ consul:
   service: true
   config:
     server: true
-    encrypt: "RIxqpNlOXqtr/j4BgvIMEw=="
-    bootstrap: 3
     bind_addr: 0.0.0.0
+    enable_debug: true
     datacenter: eu
-    retry_join: [1.1.1.1]
+    encrypt: "RIxqpNlOXqtr/j4BgvIMEw=="
+    bootstrap_expect: 3
+    retry_interval: 15s
+    retry_join:
+      - 1.1.1.1
+      - 2.2.2.2
