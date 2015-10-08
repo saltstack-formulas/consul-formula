@@ -4,5 +4,6 @@ consul:
     server: true
     encrypt: "RIxqpNlOXqtr/j4BgvIMEw=="
     bootstrap: 3
-    datacenter: eu
     bind_addr: 0.0.0.0
+    datacenter: eu
+    retry_join: [1.1.1.1]
