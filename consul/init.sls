@@ -54,6 +54,10 @@ consul_init_script:
     - name: /etc/init.d/consul
     - mode: 0755
     {% endif %}
+    {% if consul.service != False %}
+    - watch_in:
+       - service: consul
+    {% endif %}
 
 consul_config_dir:
   file.directory:
