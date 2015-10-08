@@ -19,7 +19,6 @@ script
   exec start-stop-daemon --start -c consul \
     --exec /usr/local/bin/consul agent -- \
       -config-dir="/etc/consul.d" \
-      -bind=$BIND \
       ${CONSUL_FLAGS} \
       >> /var/log/consul.log 2>&1
 end script
