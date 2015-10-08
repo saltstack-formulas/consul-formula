@@ -6,8 +6,12 @@ unzip:
 consul_download:
   archive.extracted:
     - name: /opt/consul
-    - source: http://dl.bintray.com/mitchellh/consul/0.5.2_linux_amd64.zip
+    - source: http://dl.bintray.com/mitchellh/consul/0.5.2_linux_{{ salt['grains.get']('osarch', '386') }}.zip
+    {% if salt['grains.get']('osarch', '386') == 'amd64' %}
     - source_hash: sha1=b3ae610c670fc3b81737d44724ebde969da66ebf
+    {% else %}
+    - source_hash: sha1=a4eaaa66668682f40ccb40daefcf0732a185d3a4
+    {% endif %}
     - archive_format: zip
     - require:
       - pkg: unzip
