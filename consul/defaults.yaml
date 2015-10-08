@@ -8,3 +8,6 @@ consul:
     enable_debug: false
     log_level: info
     encrypt: ""
+    retry_join: []
+    retry_interval: 30s
+    datacenter: "main"
