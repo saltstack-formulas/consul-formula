@@ -1,7 +1,7 @@
 {% from "consul/map.jinja" import consul with context %}
 {
   "services": [
-    {% for service in consul.register.items() %}
+    {% for service in consul.register %}
     {
       {% for key, value in service.items() %}
       {% if key == 'script' %}

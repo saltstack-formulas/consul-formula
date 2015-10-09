@@ -71,6 +71,12 @@ consul_data_dir:
     - user: consul
     - group: consul
 
+consul_script_dir:
+  file.directory:
+    - name: /opt/consul/scripts
+    - user: consul
+    - group: consul
+
 consul_config:
   file.managed:
     - source: salt://consul/files/config.json
