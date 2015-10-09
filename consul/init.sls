@@ -95,7 +95,7 @@ consul_config:
 {% set outer_loop = loop %}
 {% for check in service.checks %}
 {% if check.script %}
-consul_service_register_{{ outer_loopindex }}_{{ loop.index }}:
+consul_service_register_{{ outer_loop.index }}_{{ loop.index }}:
   file.managed:
     - source: {{ check.script }}
     - name: /opt/consul/scripts/{{ check.script.split('/')[-1] }}
