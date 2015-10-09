@@ -91,20 +91,15 @@ consul_config:
     - require:
       - user: consul
 
-{% for service in consul.register %}
-{% set outer_loop = loop %}
-{% for check in service.checks %}
-{% if check.script %}
-consul_service_register_{{ outer_loop.index }}_{{ loop.index }}:
+{% for script in consul.scripts %}
+consul_service_register_{{ loop.index }}:
   file.managed:
-    - source: {{ check.script }}
-    - name: /opt/consul/scripts/{{ check.script.split('/')[-1] }}
+    - source: {{ check.source }}
+    - name: {{ check.name }}
     - template: jinja
     - user: consul
     - group: consul
     - mode: 0755
-{% endif %}
-{% endfor %}
 {% endfor %}
 
 consul_service_register_config:
