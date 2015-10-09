@@ -4,8 +4,16 @@
     {% for service in consul.register %}
     {
       {% for key, value in service.items() %}
-      {% if key == 'script' %}
-      "{{ script }}": "/opt/consul/scripts/"{{ value.split('/')[-1] }}{% if not loop.last %},{% endif %}
+      {% if key == 'checks' %}
+      "checks": [
+        {% for key2, value2 in value.items() %}
+        {% if key2 == 'script' %}
+        "script": /opt/consul/scripts/{{ value2.split('/')[-1] }}{% if not loop.last %},{% endif %}
+        {% else %}
+        "{{ key2 }}": {{ value2 | json}}{% if not loop.last %},{% endif %}
+        {% endif %}
+        {% endfor %}
+      ]{% if not loop.last %},{% endif %}
       {% else %}
       "{{ key }}": {{ value | json}}{% if not loop.last %},{% endif %}
       {% endif %}
