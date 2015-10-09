@@ -1,6 +1,4 @@
 {% from "consul/map.jinja" import consul with context %}
 {
-  "services": {
-    {% consul.register | json %}
-  }
+  "services": {{ consul.register | json }}
 }
