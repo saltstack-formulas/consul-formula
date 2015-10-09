@@ -85,7 +85,7 @@ consul_config:
     - require:
       - user: consul
 
-{% for service in consul.se %}
+{% for service in consul.register %}
 {% set outer_loop = loop %}
 {% for check in service %}
 {% if check.script %}
