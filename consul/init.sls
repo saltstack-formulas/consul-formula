@@ -94,8 +94,8 @@ consul_config:
 {% for script in consul.scripts %}
 consul_service_register_{{ loop.index }}:
   file.managed:
-    - source: {{ check.source }}
-    - name: {{ check.name }}
+    - source: {{ script.source }}
+    - name: {{ script.name }}
     - template: jinja
     - user: consul
     - group: consul
