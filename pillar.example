@@ -11,3 +11,8 @@ consul:
     retry_join:
       - 1.1.1.1
       - 2.2.2.2
+  register:
+    - name: Redis
+      checks:
+        - script: salt://files/consul/check_redis.py
+          interval: 10s

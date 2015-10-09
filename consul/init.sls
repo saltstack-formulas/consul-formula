@@ -85,6 +85,36 @@ consul_config:
     - require:
       - user: consul
 
+{% for service in consul.se %}
+{% set outer_loop = loop %}
+{% for check in service %}
+{% if check.script %}
+consul_service_register_{{ outer_loopindex }}_{{ loop.index }}:
+  file.managed:
+    - source: {{ check.script }}
+    - name: /opt/consul/scripts/{{ check.script.split('/')[-1] }}
+    - template: jinja
+    - user: consul
+    - group: consul
+    - mode: 0755
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+consul_service_register_config:
+  file.managed:
+    - source: salt://consul/files/services.json
+    - name: /etc/consul.d/services.json
+    - template: jinja
+    {% if consul.service != False %}
+    - watch_in:
+       - service: consul
+    {% endif %}
+    - user: consul
+    - group: consul
+    - require:
+      - user: consul
+
 {% if consul.service != False %}
 consul_service:
   service.running:
