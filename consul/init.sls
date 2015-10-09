@@ -93,7 +93,7 @@ consul_config:
 
 {% for service in consul.register %}
 {% set outer_loop = loop %}
-{% for check in service %}
+{% for check in service.checks %}
 {% if check.script %}
 consul_service_register_{{ outer_loopindex }}_{{ loop.index }}:
   file.managed:
