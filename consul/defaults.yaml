@@ -12,3 +12,4 @@ consul:
     retry_interval: 30s
     datacenter: "main"
   register: []
+  scripts: []
