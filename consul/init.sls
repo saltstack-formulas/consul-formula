@@ -3,44 +3,44 @@
 unzip:
   pkg.installed
 
+/usr/local/bin:
+  file.directory:
+    - recuse: True
+
 consul_download:
-  archive.extracted:
-    - name: /opt/consul
-    - source: http://dl.bintray.com/mitchellh/consul/0.5.2_linux_{{ salt['grains.get']('osarch', '386') }}.zip
-    {% if salt['grains.get']('osarch', '386') == 'amd64' %}
-    - source_hash: sha1=b3ae610c670fc3b81737d44724ebde969da66ebf
-    {% else %}
-    - source_hash: sha1=a4eaaa66668682f40ccb40daefcf0732a185d3a4
-    {% endif %}
-    - archive_format: zip
-    - require:
-      - pkg: unzip
+  file.managed:
+    - name: /tmp/{{ consul.version }}_linux_amd64.zip
+    - source: https://dl.bintray.com/mitchellh/consul/{{ consul.version }}_linux_amd64.zip
+    - source_hash: sha1={{ consul.hash }}
+    - unless: test -f /usr/local/bin/consul-{{ consul.version }}
 
-consul_ui_download:
-  archive.extracted:
-    - name: /opt/consul
-    - source: http://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip
-    - source_hash: sha1=67a2665e3c6aa6ca95c24d6176641010a1002cd6
-    - archive_format: zip
-    - if_missing: /opt/consul/dist
-    - require:
-      - pkg: unzip
+consul_extract:
+  cmd.wait:
+    - name: unzip /tmp/{{ consul.version }}_linux_amd64.zip -d /tmp
+    - watch:
+      - file: consul_download
 
-consul_template_download:
-  archive.extracted:
-    - name: /usr/local/bin/consul-template
-    - source: https://github.com/hashicorp/consul-template/releases/download/v0.11.0/consul_template_0.11.0_linux_{{ salt['grains.get']('osarch', '386') }}.zip
-    {% if salt['grains.get']('osarch', '386') == 'amd64' %}
-    - source_hash: sha1=4db740e15f04651f296ee81413f9bef82bab6eb2
-    {% else %}
-    - source_hash: sha1=7149bd3d6d39dd9c224aeab34b099f52f9851184
-    {% endif %}
-    - archive_format: zip
+consul_install:
+  file.rename:
+    - name: /usr/local/bin/consul-{{ consul.version }}
+    - source: /tmp/consul
+    - require:
+      - file: /usr/local/bin
+    - watch:
+      - cmd: consul_extract
+
+consul_clean:
+  file.absent:
+    - name: /tmp/{{ consul.version }}_linux_amd64.zip
+    - watch:
+      - file: consul_install
 
 consul_link:
   file.symlink:
-    - target: /opt/consul/consul
+    - target: consul-{{ consul.version }}
     - name: /usr/local/bin/consul
+    - watch:
+      - file: consul_install
 
 consul_user:
   group.present:
