@@ -6,7 +6,7 @@ consul:
   ui_hash: 67a2665e3c6aa6ca95c24d6176641010a1002cd6
 
   template_version: 0.11.0
-  template_hash: 3894617dfa7d9ccdd4b754023e528b46a13423a6
+  template_hash: 4db740e15f04651f296ee81413f9bef82bab6eb2
 
   service: false
   config:

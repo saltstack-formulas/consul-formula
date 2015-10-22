@@ -14,8 +14,8 @@ consul:
   register:
     - name: Redis
       checks:
-        - script: /usr/share/local/consul/check_redis.py
+        - script: /usr/local/share/consul/check_redis.py
           interval: 10s
   scripts:
     - source: salt://files/consul/check_redis.py 
-      name: /usr/share/local/consul/check_redis.py
+      name: /usr/local/share/consul/check_redis.py
