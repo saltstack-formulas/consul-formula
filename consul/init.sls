@@ -27,7 +27,7 @@ consul_ui_download:
       - pkg: unzip
 
 consul_template_download:
-  file.managed:
+  archive.extracted:
     - name: /usr/local/bin/consul-template
     - source: https://github.com/hashicorp/consul-template/releases/download/v0.11.0/consul_template_0.11.0_linux_{{ salt['grains.get']('osarch', '386') }}.zip
     {% if salt['grains.get']('osarch', '386') == 'amd64' %}
