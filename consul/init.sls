@@ -33,7 +33,7 @@ consul_runtime_dir:
 
 consul_data_dir:
   file.directory:
-    - name: /usr/share/local/consul
+    - name: /usr/local/share/consul
     - user: consul
     - group: consul
     - makedirs: True
@@ -126,7 +126,7 @@ consul_ui_extract:
 
 consul_ui_install:
   file.rename:
-    - name: /usr/local/share/consul/ui-{{ consul.template_version }}
+    - name: /usr/local/share/consul/ui-{{ consul.ui_version }}
     - source: /tmp/dist
     - require:
       - file: /usr/local/share/consul
