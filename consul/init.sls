@@ -116,7 +116,7 @@ consul_ui_download:
     - name: /tmp/{{ consul.ui_version }}_web_ui.zip
     - source: https://dl.bintray.com/mitchellh/consul/{{ consul.ui_version }}_web_ui.zip
     - source_hash: sha1={{ consul.ui_hash }}
-    - unless: test -f /usr/local/share/consul/ui-{{ consul.ui_version }}
+    - unless: test -d /usr/local/share/consul/ui-{{ consul.ui_version }}
 
 consul_ui_extract:
   cmd.wait:
