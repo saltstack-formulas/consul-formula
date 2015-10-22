@@ -1,10 +1,19 @@
 consul:
+  version: 0.5.2
+  hash: b3ae610c670fc3b81737d44724ebde969da66ebf
+
+  ui_version: 0.5.2
+  ui_hash: 67a2665e3c6aa6ca95c24d6176641010a1002cd6
+
+  template_version: 0.11.0
+  template_hash: 4db740e15f04651f296ee81413f9bef82bab6eb2
+
   service: false
   config:
     server: false
     bind_addr: 0.0.0.0
     data_dir: /var/consul
-    ui_dir: /opt/consul/dist
+    ui_dir: /usr/local/share/consul/ui
     enable_debug: false
     log_level: info
     encrypt: ""

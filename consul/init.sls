@@ -3,33 +3,9 @@
 unzip:
   pkg.installed
 
-consul_download:
-  archive.extracted:
-    - name: /opt/consul
-    - source: http://dl.bintray.com/mitchellh/consul/0.5.2_linux_{{ salt['grains.get']('osarch', '386') }}.zip
-    {% if salt['grains.get']('osarch', '386') == 'amd64' %}
-    - source_hash: sha1=b3ae610c670fc3b81737d44724ebde969da66ebf
-    {% else %}
-    - source_hash: sha1=a4eaaa66668682f40ccb40daefcf0732a185d3a4
-    {% endif %}
-    - archive_format: zip
-    - require:
-      - pkg: unzip
-
-consul_ui_download:
-  archive.extracted:
-    - name: /opt/consul
-    - source: http://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip
-    - source_hash: sha1=67a2665e3c6aa6ca95c24d6176641010a1002cd6
-    - archive_format: zip
-    - if_missing: /opt/consul/dist
-    - require:
-      - pkg: unzip
-
-consul_link:
-  file.symlink:
-    - target: /opt/consul/consul
-    - name: /usr/local/bin/consul
+/usr/local/bin:
+  file.directory:
+    - makedirs: True
 
 consul_user:
   group.present:
@@ -42,6 +18,133 @@ consul_user:
       - consul
     - require:
       - group: consul
+
+consul_config_dir:
+  file.directory:
+    - name: /etc/consul.d
+    - user: consul
+    - group: consul
+
+consul_runtime_dir:
+  file.directory:
+    - name: /var/consul
+    - user: consul
+    - group: consul
+
+consul_data_dir:
+  file.directory:
+    - name: /usr/local/share/consul
+    - user: consul
+    - group: consul
+    - makedirs: True
+
+# Consul agent
+consul_download:
+  file.managed:
+    - name: /tmp/{{ consul.version }}_linux_amd64.zip
+    - source: https://dl.bintray.com/mitchellh/consul/{{ consul.version }}_linux_amd64.zip
+    - source_hash: sha1={{ consul.hash }}
+    - unless: test -f /usr/local/bin/consul-{{ consul.version }}
+
+consul_extract:
+  cmd.wait:
+    - name: unzip /tmp/{{ consul.version }}_linux_amd64.zip -d /tmp
+    - watch:
+      - file: consul_download
+
+consul_install:
+  file.rename:
+    - name: /usr/local/bin/consul-{{ consul.version }}
+    - source: /tmp/consul
+    - require:
+      - file: /usr/local/bin
+    - watch:
+      - cmd: consul_extract
+
+consul_clean:
+  file.absent:
+    - name: /tmp/{{ consul.version }}_linux_amd64.zip
+    - watch:
+      - file: consul_install
+
+consul_link:
+  file.symlink:
+    - target: consul-{{ consul.version }}
+    - name: /usr/local/bin/consul
+    - watch:
+      - file: consul_install
+
+# Consul template engine
+consul_template_download:
+  file.managed:
+    - name: /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip
+    - source: https://github.com/hashicorp/consul-template/releases/download/v{{ consul.template_version }}/consul_template_{{ consul.template_version }}_linux_amd64.zip
+    - source_hash: sha1={{ consul.template_hash }}
+    - unless: test -f /usr/local/bin/consul-template-{{ consul.template_version }}
+
+consul_template_extract:
+  cmd.wait:
+    - name: unzip /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip -d /tmp
+    - watch:
+      - file: consul_template_download
+
+consul_template_install:
+  file.rename:
+    - name: /usr/local/bin/consul-template-{{ consul.template_version }}
+    - source: /tmp/consul-template
+    - require:
+      - file: /usr/local/bin
+    - watch:
+      - cmd: consul_template_extract
+
+consul_template_clean:
+  file.absent:
+    - name: /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip
+    - watch:
+      - file: consul_template_install
+
+consul_template_link:
+  file.symlink:
+    - target: consul-template-{{ consul.template_version }}
+    - name: /usr/local/bin/consul-template
+    - watch:
+      - file: consul_template_install
+
+# Consul UI
+consul_ui_download:
+  file.managed:
+    - name: /tmp/{{ consul.ui_version }}_web_ui.zip
+    - source: https://dl.bintray.com/mitchellh/consul/{{ consul.ui_version }}_web_ui.zip
+    - source_hash: sha1={{ consul.ui_hash }}
+    - unless: test -d /usr/local/share/consul/ui-{{ consul.ui_version }}
+
+consul_ui_extract:
+  cmd.wait:
+    - name: unzip /tmp/{{ consul.ui_version }}_web_ui.zip -d /tmp/
+    - watch:
+      - file: consul_ui_download
+
+consul_ui_install:
+  file.rename:
+    - name: /usr/local/share/consul/ui-{{ consul.ui_version }}
+    - source: /tmp/dist
+    - require:
+      - file: /usr/local/share/consul
+    - watch:
+      - cmd: consul_ui_extract
+
+consul_ui_clean:
+  file.absent:
+    - name: /tmp/{{ consul.ui_version }}_web_ui.zip
+    - watch:
+      - file: consul_ui_install
+
+consul_ui_link:
+  file.symlink:
+    - target: ui-{{ consul.ui_version }}
+    - name: /usr/local/share/consul/ui
+    - watch:
+      - file: consul_ui_install
 
 consul_init_script:
   file.managed:
@@ -59,23 +162,6 @@ consul_init_script:
        - service: consul
     {% endif %}
 
-consul_config_dir:
-  file.directory:
-    - name: /etc/consul.d
-    - user: consul
-    - group: consul
-
-consul_data_dir:
-  file.directory:
-    - name: /var/consul
-    - user: consul
-    - group: consul
-
-consul_script_dir:
-  file.directory:
-    - name: /opt/consul/scripts
-    - user: consul
-    - group: consul
 
 consul_config:
   file.managed:
