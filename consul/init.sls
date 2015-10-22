@@ -26,6 +26,17 @@ consul_ui_download:
     - require:
       - pkg: unzip
 
+consul_template_download:
+  file.managed:
+    - name: /usr/local/bin/consul-template
+    - source: https://github.com/hashicorp/consul-template/releases/download/v0.11.0/consul_template_0.11.0_linux_{{ salt['grains.get']('osarch', '386') }}.zip
+    {% if salt['grains.get']('osarch', '386') == 'amd64' %}
+    - source_hash: sha1=4db740e15f04651f296ee81413f9bef82bab6eb2
+    {% else %}
+    - source_hash: sha1=7149bd3d6d39dd9c224aeab34b099f52f9851184
+    {% endif %}
+    - archive_format: zip
+
 consul_link:
   file.symlink:
     - target: /opt/consul/consul
