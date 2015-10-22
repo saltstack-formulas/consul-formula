@@ -105,7 +105,7 @@ consul_template_clean:
 
 consul_template_link:
   file.symlink:
-    - target: consul-template-{{ consul.version }}
+    - target: consul-template-{{ consul.template_version }}
     - name: /usr/local/bin/consul-template
     - watch:
       - file: consul_template_install
@@ -141,7 +141,7 @@ consul_ui_clean:
 
 consul_ui_link:
   file.symlink:
-    - target: ui-{{ consul.version }}
+    - target: ui-{{ consul.ui_version }}
     - name: /usr/local/share/consul/ui
     - watch:
       - file: consul_ui_install
