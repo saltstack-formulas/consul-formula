@@ -43,14 +43,14 @@ consul-data-dir:
 # Install agent
 consul-download:
   file.managed:
-    - name: /tmp/{{ consul.version }}_linux_amd64.zip
-    - source: https://dl.bintray.com/mitchellh/consul/{{ consul.version }}_linux_amd64.zip
-    - source_hash: sha1={{ consul.hash }}
+    - name: /tmp/consul_{{ consul.version }}_linux_amd64.zip
+    - source: https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_amd64.zip
+    - source_hash: sha256={{ consul.hash }}
     - unless: test -f /usr/local/bin/consul-{{ consul.version }}
 
 consul-extract:
   cmd.wait:
-    - name: unzip /tmp/{{ consul.version }}_linux_amd64.zip -d /tmp
+    - name: unzip /tmp/consul_{{ consul.version }}_linux_amd64.zip -d /tmp
     - watch:
       - file: consul-download
 
@@ -65,7 +65,7 @@ consul-install:
 
 consul-clean:
   file.absent:
-    - name: /tmp/{{ consul.version }}_linux_amd64.zip
+    - name: /tmp/consul_{{ consul.version }}_linux_amd64.zip
     - watch:
       - file: consul-install
 
@@ -79,14 +79,14 @@ consul-link:
 # Install UI
 consul-ui-download:
   file.managed:
-    - name: /tmp/{{ consul.ui_version }}_web_ui.zip
-    - source: https://dl.bintray.com/mitchellh/consul/{{ consul.ui_version }}_web_ui.zip
-    - source_hash: sha1={{ consul.ui_hash }}
+    - name: /tmp/consul_{{ consul.ui_version }}_web_ui.zip
+    - source: https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.ui_version }}_web_ui.zip
+    - source_hash: sha256={{ consul.ui_hash }}
     - unless: test -d /usr/local/share/consul/ui-{{ consul.ui_version }}
 
 consul-ui-extract:
   cmd.wait:
-    - name: unzip /tmp/{{ consul.ui_version }}_web_ui.zip -d /tmp/
+    - name: unzip /tmp/consul_{{ consul.ui_version }}_web_ui.zip -d /tmp/dist
     - watch:
       - file: consul-ui-download
 
@@ -101,7 +101,7 @@ consul-ui-install:
 
 consul-ui-clean:
   file.absent:
-    - name: /tmp/{{ consul.ui_version }}_web_ui.zip
+    - name: /tmp/consul_{{ consul.ui_version }}_web_ui.zip
     - watch:
       - file: consul-ui-install
 
@@ -116,8 +116,8 @@ consul-ui-link:
 consul-template-download:
   file.managed:
     - name: /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip
-    - source: https://github.com/hashicorp/consul-template/releases/download/v{{ consul.template_version }}/consul_template_{{ consul.template_version }}_linux_amd64.zip
-    - source_hash: sha1={{ consul.template_hash }}
+    - source: https://releases.hashicorp.com/consul-template/{{ consul.template_version }}/consul-template_{{ consul.template_version }}_linux_amd64.zip
+    - source_hash: sha256={{ consul.template_hash }}
     - unless: test -f /usr/local/bin/consul-template-{{ consul.template_version }}
 
 consul-template-extract:
