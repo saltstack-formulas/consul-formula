@@ -1,10 +1,12 @@
 {% from "consul/map.jinja" import consul with context %}
 
-unzip:
-  pkg.installed
+consul-dep-unzip:
+  pkg.installed:
+    - name: unzip
 
-/usr/local/bin:
+consul-bin-dir:
   file.directory:
+    - name: /usr/local/bin
     - makedirs: True
 
 # Create consul user
