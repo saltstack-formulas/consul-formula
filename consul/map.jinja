@@ -1,6 +1,5 @@
 {% import_yaml "consul/defaults.yaml" as defaults %}
 
 {% set consul = salt['pillar.get']('consul', default=defaults.consul, merge=True) %}
-{% set consul_template = salt['pillar.get']('consul_template', default=defaults.consul_template, merge=True) %}
 
 {% do consul.config.update({'retry_join': consul.config.retry_join or []}) %}

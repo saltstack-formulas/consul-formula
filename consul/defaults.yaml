@@ -19,12 +19,3 @@ consul:
     datacenter: "main"
   register: []
   scripts: []
-
-consul_template:
-  version: 0.12.1
-  hash: 693c52a2b1aed9b63584f47c377efd0fc349df3616985a0709246faaf9a80c8e
-
-  service: false
-  config:
-    consul: 127.0.0.1:8500
-    log_level: info
