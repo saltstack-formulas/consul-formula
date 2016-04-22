@@ -1,0 +1,2 @@
+{% from "consul/map.jinja" import consul_template with context %}
+{{ consul_template.config | json}}

@@ -1,4 +1,4 @@
-{% from "consul/map.jinja" import consul with context %}
+{% from "consul/map.jinja" import consul, consul_template with context %}
 
 consul-config:
   file.managed:
@@ -38,3 +38,9 @@ consul-script-config:
     - group: consul
     - require:
       - user: consul
+
+consul-template-config:
+  file.managed:
+    - source: salt://consul/files/consul-template-config.json
+    - template: jinja
+    - name: /etc/consul-template.d/config.json
