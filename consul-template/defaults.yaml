@@ -8,7 +8,7 @@ consul_template:
     log_level: info
   tmpl:
     - name: example
-      source: salt://consul-template/files/example.tmpl
+      source: salt://consul-template/files/example.ctmpl
       config:
         template:
           source: /etc/consul-template/tmpl-source/example.ctmpl
