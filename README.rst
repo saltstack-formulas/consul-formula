@@ -18,3 +18,7 @@ Available states
 
 Installs and configures the Consul service.
 
+``consul-template``
+-------------------
+
+Installs and configures Consul template.

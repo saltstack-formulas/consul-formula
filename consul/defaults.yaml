@@ -5,9 +5,6 @@ consul:
   ui_version: 0.6.1
   ui_hash: afccdd540b166b778c7c0483becc5e282bbbb1ee52335bfe94bf757df8c55efc
 
-  template_version: 0.12.1
-  template_hash: 693c52a2b1aed9b63584f47c377efd0fc349df3616985a0709246faaf9a80c8e
-
   service: false
   config:
     server: false

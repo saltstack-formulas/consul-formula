@@ -2,7 +2,11 @@
 
 consul-init-script:
   file.managed:
-    {% if salt['test.provider']('service') == 'upstart' %}
+    {% if salt['test.provider']('service') == 'systemd' %}
+    - source: salt://consul/files/consul.service
+    - name: /etc/systemd/system/consul.service
+    - mode: 0644
+    {% elif salt['test.provider']('service') == 'upstart' %}
     - source: salt://consul/files/consul.upstart
     - name: /etc/init/consul.conf
     - mode: 0644

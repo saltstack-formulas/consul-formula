@@ -1,0 +1,13 @@
+[Unit]
+Description=consul-template
+Wants=network.target
+After=network.target
+
+[Service]
+Environment="GOMAXPROCS=2" "PATH=/usr/local/bin:/usr/bin:/bin"
+ExecStart=/usr/local/bin/consul-template -config /etc/consul-template.d
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=TERM
+
+[Install]
+WantedBy=multi-user.target

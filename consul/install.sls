@@ -40,7 +40,7 @@ consul-data-dir:
     - name: /usr/local/share/consul
     - user: consul
     - group: consul
-    - makedirs: 
+    - makedirs:
 
 # Install agent
 consul-download:
@@ -113,39 +113,3 @@ consul-ui-link:
     - name: /usr/local/share/consul/ui
     - watch:
       - file: consul-ui-install
-
-# Install template renderer
-consul-template-download:
-  file.managed:
-    - name: /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip
-    - source: https://releases.hashicorp.com/consul-template/{{ consul.template_version }}/consul-template_{{ consul.template_version }}_linux_amd64.zip
-    - source_hash: sha256={{ consul.template_hash }}
-    - unless: test -f /usr/local/bin/consul-template-{{ consul.template_version }}
-
-consul-template-extract:
-  cmd.wait:
-    - name: unzip /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip -d /tmp
-    - watch:
-      - file: consul-template-download
-
-consul-template-install:
-  file.rename:
-    - name: /usr/local/bin/consul-template-{{ consul.template_version }}
-    - source: /tmp/consul-template
-    - require:
-      - file: /usr/local/bin
-    - watch:
-      - cmd: consul-template-extract
-
-consul-template-clean:
-  file.absent:
-    - name: /tmp/consul_template_{{ consul.template_version }}_linux_amd64.zip
-    - watch:
-      - file: consul-template-install
-
-consul-template-link:
-  file.symlink:
-    - target: consul-template-{{ consul.template_version }}
-    - name: /usr/local/bin/consul-template
-    - watch:
-      - file: consul-template-install
