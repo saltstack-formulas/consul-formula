@@ -1,0 +1,20 @@
+[Unit]
+Description={{ unit.name }}
+Wants={{ unit.wants|default('network.target') }}
+After={{ unit.after|default('network.target') }}
+
+[Service]
+Environment="GOMAXPROCS=2" "PATH=/usr/local/bin:/usr/bin:/bin" {% if service.env is defined %}{% for k, v in service.env.iteritems() %}" {{ k }}={{ v }}" {% endfor %}{% endif %}
+ExecStart=/usr/local/bin/consul-template {% for dict in service.exec_start %}{% for k, v in dict.iteritems() %} -{{
+ k }} {{ v }} {% endfor %}{% endfor %}
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10s
+KillSignal=TERM
+
+[Install]
+{% if install is defined -%}
+WantedBy={{ install.wanted_by|default('multi-user.target') }}
+{% else -%}
+WantedBy=multi-user.target
+{% endif %}

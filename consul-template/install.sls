@@ -1,14 +1,5 @@
 {% from "consul-template/map.jinja" import consul_template with context %}
 
-consul-template-config-dir:
-  file.directory:
-    - name: /etc/consul-template.d
-
-consul-template-template-dir:
-  file.directory:
-    - name: /etc/consul-template/tmpl-source
-    - makedirs: True
-
 # Install template renderer
 consul-template-download:
   file.managed:

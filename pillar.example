@@ -28,14 +28,34 @@ consul:
 
 consul_template:
   service: true
-  config:
-    consul: 127.0.0.1:8500
-    log_level: info
-  tmpl:
-    - name: example.com
-      source: salt://files/example.com.ctmpl
-      config:
-        template:
-          source: /etc/consul-template/tmpl-source/example.com.ctmpl
-          destination: /etc/nginx/sites-enabled/example.com
-          command: systemctl restart nginx
+
+consul_template:
+  instances:
+    default:
+      example:
+        config:
+          template:
+            - source: /etc/consul-template/default/tmpl-source/example.ctmpl
+            - destination: /tmp/example
+        tmpl:
+          - |
+
+    nginx:
+      www.example.com:
+        config:
+          template:
+            - command: systemctl restart nginx
+              source: /etc/consul-template/nginx/tmpl-source/www.example.com.nginx.vhost.ctmpl
+              destination: /etc/nginx/sites-available/www.example.com
+        tmpl:
+          - |
+            {% raw %}
+            server {
+              listen 80;
+              root /var/www/html/www.example.com;
+
+              location / {
+                try_files index.html;
+              }
+            }
+            {% endraw %}
