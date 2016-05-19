@@ -42,4 +42,3 @@ consul-template-{{ instance }}:
       - file: consul-template-{{ instance }}-service
       {% endif %}
 {% endfor %}
-

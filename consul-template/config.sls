@@ -33,6 +33,5 @@ consul-template-tmpl-{{ name }}-{{ loop.index }}:
       {{ template.tmpl[loop.index - 1] | indent(8) }}
 {% endfor %}
 {% endfor %}
-
 {% endif %}
 {% endfor %}
