@@ -24,4 +24,5 @@ consul-init-script:
 consul-service:
   service.running:
     - name: consul
+    - enable: True
 {% endif %}

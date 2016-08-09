@@ -1,22 +1,37 @@
 {% from "consul-template/map.jinja" import consul_template with context %}
 
-consul-template-config:
-  file.managed:
-    - source: salt://consul-template/files/config.json
-    - template: jinja
-    - name: /etc/consul-template.d/config.json
+{% for instance, templates in consul_template.instances.iteritems() %}
+consul-template-{{ instance }}-dir:
+  file.directory:
+    - name: /etc/consul-template/{{ instance }}/consul-template.d
+    - makedirs: True
 
-{% if consul_template.tmpl %}
-{% for tmpl in consul_template.tmpl %}
-consul-template-tmpl-file-{{ loop.index }}:
+# This is a hack to fix https://github.com/saltstack/salt/issues/24436
+consul-template-{{ instance }}-ignore-file:
   file.managed:
-    - source: {{ tmpl.source }}
-    - name: /etc/consul-template/tmpl-source/{{ tmpl.name }}.ctmpl
+    - name: /etc/consul-template/{{ instance }}/consul-template.d/.ignore
 
-consul-template.d-tmpl-{{ loop.index }}:
+consul-template-{{ instance }}-tmpl-dir:
+  file.directory:
+    - name: /etc/consul-template/{{ instance }}/tmpl-source
+    - makedirs: True
+
+{% if templates is not none %} 
+
+{% for name, template in templates.iteritems() %}
+consul-template-{{ name }}:
   file.serialize:
-    - name: /etc/consul-template.d/{{ tmpl.name }}.json
-    - dataset: {{ tmpl.config }}
+    - name: /etc/consul-template/{{ instance }}/consul-template.d/{{ name }}.json
+    - dataset: {{ template.config }}
     - formatter: json
+
+{% for tmpl in template.config.template %}
+consul-template-tmpl-{{ name }}-{{ loop.index }}:
+  file.managed:
+    - name: {{ tmpl.source }}
+    - contents: |
+      {{ template.tmpl[loop.index - 1] | indent(8) }}
+{% endfor %}
 {% endfor %}
 {% endif %}
+{% endfor %}
