@@ -1,6 +1,6 @@
 consul:
-  version: 0.6.4
-  hash: abdf0e1856292468e2c9971420d73b805e93888e006c76324ae39416edcf0627
+  version: 0.7.0
+  hash: b350591af10d7d23514ebaa0565638539900cdb3aaa048f077217c4c46653dd8
 
   service: false
   config:
