@@ -1,11 +1,12 @@
 consul:
-  service: true
+  # Start Consul agent service and enable it at boot time
+  service: True
 
   config:
-    server: true
+    server: True
     bind_addr: 0.0.0.0
 
-    enable_debug: true
+    enable_debug: True
 
     datacenter: eu
 
@@ -23,14 +24,17 @@ consul:
         - script: /usr/local/share/consul/check_redis.py
           interval: 10s
   scripts:
-    - source: salt://files/consul/check_redis.py 
+    - source: salt://files/consul/check_redis.py
       name: /usr/local/share/consul/check_redis.py
 
 consul_template:
-  service: true
+  # Start consul-template daemon and enable it at boot time
+  service: True
+
   config:
     consul: 127.0.0.1:8500
     log_level: info
+
   tmpl:
     - name: example.com
       source: salt://files/example.com.ctmpl
@@ -39,3 +43,5 @@ consul_template:
           source: /etc/consul-template/tmpl-source/example.com.ctmpl
           destination: /etc/nginx/sites-enabled/example.com
           command: systemctl restart nginx
+
+# vim: ft=yaml
