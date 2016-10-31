@@ -1,4 +1,4 @@
-{% from "consul/map.jinja" import consul with context %}
+{% from slspath+"/map.jinja" import consul with context %}
 
 consul-dep-unzip:
   pkg.installed:
