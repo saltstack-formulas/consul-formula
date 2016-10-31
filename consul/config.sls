@@ -3,41 +3,43 @@
 consul-config:
   file.managed:
     - name: /etc/consul.d/config.json
-    {% if consul.service != False %}
-    - watch_in:
-       - service: consul
-    {% endif %}
-    - user: consul
-    - group: consul
-    - require:
-      - user: consul
+    - source: salt://consul/files/config.json
+    - template: jinja
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
+    - mode: 640
     - contents: |
         {{ consul.config | json }}
+{%- if consul.service %}
+    - watch_in:
+      - service: consul
+{%- endif %}
 
-{% for script in consul.scripts %}
+{%- for script in consul.scripts %}
+
 consul-script-install-{{ loop.index }}:
   file.managed:
-    - source: {{ script.source }}
     - name: {{ script.name }}
+    - source: {{ script.source }}
     - template: jinja
-    - user: consul
-    - group: consul
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
     - mode: 0755
-{% endfor %}
+
+{%- endfor %}
 
 consul-script-config:
   file.managed:
-    - source: salt://{{ slspath }}/files/services.json
     - name: /etc/consul.d/services.json
+    - source: salt://consul/files/services.json
     - template: jinja
-    {% if consul.service != False %}
-    - watch_in:
-       - service: consul
-    {% endif %}
-    - user: consul
-    - group: consul
-    - require:
-      - user: consul
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
+    - mode: 644
     - context:
         register: |
           {{ consul.register | json }}
+{%- if consul.service %}
+    - watch_in:
+      - service: consul
+{%- endif %}
