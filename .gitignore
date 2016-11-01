@@ -1,0 +1,4 @@
+# VIM swap files
+*.sw?
+# Git files
+*.orig
