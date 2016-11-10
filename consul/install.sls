@@ -13,7 +13,7 @@ consul-bin-dir:
 consul-user:
   group.present:
     - name: consul
-  user.present: 
+  user.present:
     - name: consul
     - createhome: false
     - system: true
@@ -29,18 +29,12 @@ consul-config-dir:
     - user: consul
     - group: consul
 
-consul-runtime-dir:
-  file.directory:
-    - name: /var/consul
-    - user: consul
-    - group: consul
-
 consul-data-dir:
   file.directory:
-    - name: /usr/local/share/consul
+    - name: {{ consul.config.data_dir }}
     - user: consul
     - group: consul
-    - makedirs:
+    - makedirs: True
 
 # Install agent
 consul-download:
