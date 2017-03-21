@@ -1,10 +1,8 @@
-{% from slspath+"/map.jinja" import consul with context %}
+{%- from slspath+"/map.jinja" import consul with context -%}
 
 consul-config:
   file.managed:
     - name: /etc/consul.d/config.json
-    - source: salt://consul/files/config.json
-    - template: jinja
     - user: {{ consul.user }}
     - group: {{ consul.group }}
     - mode: 640
@@ -31,7 +29,7 @@ consul-script-install-{{ loop.index }}:
 consul-script-config:
   file.managed:
     - name: /etc/consul.d/services.json
-    - source: salt://consul/files/services.json
+    - source: salt://{{ slspath }}/files/services.json
     - template: jinja
     - user: {{ consul.user }}
     - group: {{ consul.group }}

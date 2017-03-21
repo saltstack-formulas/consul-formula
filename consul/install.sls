@@ -17,10 +17,10 @@ consul-group:
 consul-user:
   user.present:
     - name: {{ consul.user }}
+    - gid: {{ consul.group }}
+    - home: {{ consul.config.data_dir }}
     - createhome: False
     - system: True
-    - groups:
-      - {{ consul.group }}
     - require:
       - group: consul-group
 

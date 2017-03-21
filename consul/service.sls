@@ -19,16 +19,16 @@ consul-init-file:
   file.managed:
     {%- if salt['test.provider']('service') == 'systemd' %}
     - name: /etc/systemd/system/consul.service
-    - source: salt://consul/files/consul.service
+    - source: salt://{{ slspath }}/files/consul.service
     - template: jinja
     - mode: 0644
     {%- elif salt['test.provider']('service') == 'upstart' %}
     - name: /etc/init/consul.conf
-    - source: salt://consul/files/consul.upstart
+    - source: salt://{{ slspath }}/files/consul.upstart
     - mode: 0644
     {%- else %}
     - name: /etc/init.d/consul
-    - source: salt://consul/files/consul.sysvinit
+    - source: salt://{{ slspath }}/files/consul.sysvinit
     - mode: 0755
     {%- endif %}
     - user: root
