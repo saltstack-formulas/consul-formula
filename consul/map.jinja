@@ -1,5 +1,22 @@
 {% import_yaml "consul/defaults.yaml" as defaults %}
 
+{## Add any overrides based on CPU architecture. ##}
+{% set cpu_arch_map = salt['grains.filter_by']({
+        'armv6l': {
+            "arch": 'arm'
+        },
+        'armv7l': {
+            "arch": 'arm'
+        },
+        'x86_64': {
+            "arch": 'amd64'
+        }
+  }
+  ,grain="cpuarch"
+  ,merge=salt['pillar.get']('consul'))
+%}
+{% do defaults.consul.update(cpu_arch_map) %}
+
 {% set consul = salt['pillar.get']('consul', default=defaults.consul, merge=True) %}
 
 {% do consul.config.update({'retry_join': consul.config.retry_join or []}) %}
