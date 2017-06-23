@@ -2,13 +2,16 @@ consul:
   version: 0.7.0
   download_host: releases.hashicorp.com
 
-  service: false
+  service: False
+  user: consul
+  group: consul
+
   config:
-    server: false
+    server: False
     bind_addr: 0.0.0.0
     data_dir: /var/consul
-    ui: true
-    enable_debug: false
+    ui: True
+    enable_debug: False
     log_level: info
     encrypt: ""
     retry_join: []
