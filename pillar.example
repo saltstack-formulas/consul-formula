@@ -26,6 +26,8 @@ consul:
   scripts:
     - source: salt://files/consul/check_redis.py
       name: /usr/local/share/consul/check_redis.py
+      context:
+        port: 6379
 
 consul_template:
   # Start consul-template daemon and enable it at boot time
