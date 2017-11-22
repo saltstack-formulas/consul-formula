@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Environment="GOMAXPROCS=2" "PATH=/usr/local/bin:/usr/bin:/bin"
-ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d
+ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d {{ salt['pillar.get']('consul:startup_params', '') }}
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=TERM
 User=consul
