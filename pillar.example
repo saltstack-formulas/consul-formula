@@ -1,7 +1,8 @@
 consul:
   # Start Consul agent service and enable it at boot time
   service: True
-
+  startup_params: --client "127.0.0.1"
+  
   config:
     server: True
     bind_addr: 0.0.0.0
