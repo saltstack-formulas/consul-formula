@@ -16,3 +16,4 @@ consul:
     datacenter: "main"
   register: []
   scripts: []
+  startup_params: ""
