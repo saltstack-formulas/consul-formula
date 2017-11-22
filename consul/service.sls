@@ -6,6 +6,7 @@ consul-init-file:
     - source: salt://{{ slspath }}/files/consul.service
     - name: /etc/systemd/system/consul.service
     - mode: 0644
+    - template: jinja
     {%- elif salt['test.provider']('service') == 'upstart' %}
     - source: salt://{{ slspath }}/files/consul.upstart
     - name: /etc/init/consul.conf
