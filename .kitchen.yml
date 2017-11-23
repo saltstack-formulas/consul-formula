@@ -8,6 +8,8 @@ driver:
 platforms:
   - name: ubuntu-14.04
   - name: centos-7
+    driver_config:
+      run_command: /usr/lib/systemd/systemd
 
 provisioner:
   name: salt_solo
@@ -22,9 +24,21 @@ suites:
         base:
           '*':
             - consul
-      pillars-from-files:
-        consul.sls: pillar.example
       pillars:
+        consul.sls:
+          consul:
+            service: True
+            config:
+              server: True
+              bind_addr: 0.0.0.0
+              enable_debug: True
+              datacenter: eu
+              encrypt: "RIxqpNlOXqtr/j4BgvIMEw=="
+              bootstrap_expect: 3
+              retry_interval: 15s
+              retry_join:
+                - 1.1.1.1
+                - 2.2.2.2
         top.sls:
           base:
             '*':
