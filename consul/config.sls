@@ -20,6 +20,7 @@ consul-script-install-{{ loop.index }}:
     - source: {{ script.source }}
     - name: {{ script.name }}
     - template: jinja
+    - context: {{ script.get('context', {}) | yaml }}
     - user: consul
     - group: consul
     - mode: 0755
