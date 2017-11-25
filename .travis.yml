@@ -8,9 +8,9 @@ before_install:
 
 env:
   matrix:
-    - INSTANCE: consul-ubuntu-1404
-    - INSTANCE: consul-ubuntu-1604
-    - INSTANCE: consul-centos-7
+    - INSTANCE: consul-server-ubuntu-1404
+    - INSTANCE: consul-server-ubuntu-1604
+    - INSTANCE: consul-server-centos-7
 
 script:
   - bundle exec kitchen verify ${INSTANCE}
