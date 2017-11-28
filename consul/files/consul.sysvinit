@@ -24,7 +24,6 @@
 . /etc/rc.d/init.d/functions
 
 prog="consul"
-user="consul"
 exec="/usr/local/bin/$prog"
 pidfile="/var/run/$prog.pid"
 lockfile="/var/lock/subsys/$prog"
@@ -33,6 +32,9 @@ confdir="/etc/consul.d"
 
 # pull in sysconfig settings
 [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+
+user=${CONSUL_USER:-consul}
+group=${CONSUL_GROUP:-consul}
 
 export GOMAXPROCS=${GOMAXPROCS:-2}
 
@@ -44,7 +46,7 @@ start() {
     umask 077
 
     touch $logfile $pidfile
-    chown $user:$user $logfile $pidfile
+    chown "$user:$group" $logfile $pidfile
 
     echo -n $"Starting $prog: "
     
@@ -56,7 +58,7 @@ start() {
     ## owned by consul:consul, using -pid-file results in a permission error.
     daemon \
         --pidfile=$pidfile \
-        --user=consul \
+        --user="$user" \
         " { $exec agent -config-dir=$confdir &>> $logfile & } ; echo \$! >| $pidfile "
     
     RETVAL=$?

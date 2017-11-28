@@ -10,24 +10,25 @@ consul-bin-dir:
     - makedirs: True
 
 # Create consul user
-consul-user:
+consul-group:
   group.present:
-    - name: consul
+    - name: {{ consul.group }}
+
+consul-user:
   user.present:
-    - name: consul
-    - createhome: false
-    - system: true
-    - groups:
-      - consul
+    - name: {{ consul.user }}
+    - gid: {{ consul.group }}
+    - createhome: False
+    - system: True
     - require:
-      - group: consul
+      - group: consul-group
 
 # Create directories
 consul-config-dir:
   file.directory:
     - name: /etc/consul.d
-    - user: consul
-    - group: consul
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
 
 consul-data-dir:
   file.directory:

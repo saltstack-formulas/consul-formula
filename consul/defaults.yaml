@@ -3,6 +3,10 @@ consul:
   download_host: releases.hashicorp.com
 
   service: false
+
+  user: consul
+  group: consul
+
   config:
     server: false
     bind_addr: 0.0.0.0
