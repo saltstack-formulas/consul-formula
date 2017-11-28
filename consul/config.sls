@@ -21,8 +21,8 @@ consul-script-install-{{ loop.index }}:
     - name: {{ script.name }}
     - template: jinja
     - context: {{ script.get('context', {}) | yaml }}
-    - user: consul
-    - group: consul
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
     - mode: 0755
 {% endfor %}
 
@@ -33,8 +33,8 @@ consul-script-config:
     - watch_in:
        - service: consul
     {% endif %}
-    - user: consul
-    - group: consul
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
     - require:
       - user: consul
     - formatter: json
