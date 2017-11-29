@@ -1,4 +1,4 @@
-{% from slspath+"/map.jinja" import consul with context %}
+{%- from slspath + '/map.jinja' import consul with context -%}
 
 consul-dep-unzip:
   pkg.installed:
@@ -17,7 +17,8 @@ consul-group:
 consul-user:
   user.present:
     - name: {{ consul.user }}
-    - gid: {{ consul.group }}
+    - groups:
+      - {{ consul.group }}
     - createhome: False
     - system: True
     - require:
@@ -29,13 +30,15 @@ consul-config-dir:
     - name: /etc/consul.d
     - user: {{ consul.user }}
     - group: {{ consul.group }}
+    - mode: 0750
 
 consul-data-dir:
   file.directory:
     - name: {{ consul.config.data_dir }}
-    - user: consul
-    - group: consul
     - makedirs: True
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
+    - mode: 0750
 
 # Install agent
 consul-download:
