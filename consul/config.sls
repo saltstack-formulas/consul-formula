@@ -1,12 +1,7 @@
 {% from slspath + "/map.jinja" import consul with context %}
 
-consul-config:
+/etc/consul.d/config.json:
   file.serialize:
-    - name: /etc/consul.d/config.json
-    {% if consul.service != False %}
-    - watch_in:
-       - service: consul
-    {% endif %}
     - user: consul
     - group: consul
     - require:
@@ -25,13 +20,8 @@ consul-script-install-{{ loop.index }}:
     - mode: 0755
 {% endfor %}
 
-consul-script-config:
+/etc/consul.d/services.json:
   file.serialize:
-    - name: /etc/consul.d/services.json
-    {% if consul.service != False %}
-    - watch_in:
-       - service: consul
-    {% endif %}
     - user: consul
     - group: consul
     - require:
