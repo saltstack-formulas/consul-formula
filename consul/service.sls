@@ -25,5 +25,5 @@ consul-service:
     - enable: True
     - watch:
       - file: consul-init-file
-
+      - file: /etc/consul.d/*
 {%- endif %}
