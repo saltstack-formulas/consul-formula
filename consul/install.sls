@@ -47,7 +47,7 @@ consul-download:
 consul-extract:
   cmd.wait:
     - name: unzip /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip -d /tmp
-    - watch:
+    - onchanges:
       - file: consul-download
 
 consul-install:
@@ -56,18 +56,18 @@ consul-install:
     - source: /tmp/consul
     - require:
       - file: /usr/local/bin
-    - watch:
+    - onchanges:
       - cmd: consul-extract
 
 consul-clean:
   file.absent:
     - name: /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
-    - watch:
+    - onchanges:
       - file: consul-install
 
 consul-link:
   file.symlink:
     - target: consul-{{ consul.version }}
     - name: /usr/local/bin/consul
-    - watch:
+    - onchanges:
       - file: consul-install
