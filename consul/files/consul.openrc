@@ -1,0 +1,58 @@
+#!/sbin/openrc-run
+
+extra_started_commands="reload"
+
+
+if [ -z "${CONSUL_DIR}" ] ; then
+        CONSUL_DIR="/etc/consul.d"
+fi
+if [ -z "${CONSUL_PID}" ] ; then
+        CONSUL_PID="/run/consul.pid"
+fi
+
+required_files=$CONSUL_CONF
+
+depend() {
+        need net
+        use logger dns
+        after firewall
+        after famd
+        after sshd
+}
+
+checkconfig() {
+
+        if [ ! -d "${CONSUL_DIR}" ] ; then
+                ewarn "${CONSUL_DIR} does not exist."
+                return 1
+        fi
+
+        /usr/local/bin/consul validate "${CONSUL_DIR}"
+}
+
+start() {
+        checkconfig || return 1
+
+        ebegin "Starting consul"
+        start-stop-daemon --start --quiet --background --make-pidfile --pidfile "${CONSUL_PID}" \
+          --exec /usr/local/bin/consul -- agent -config-dir="${CONSUL_DIR}"
+        eend $?
+}
+
+stop() {
+        local rv=0
+        ebegin "Stopping consul"
+        start-stop-daemon --stop --quiet --pidfile "${CONSUL_PID}"
+        rm -f "${CONSUL_PID}"
+        eend $?
+}
+
+reload() {
+        if ! service_started "${SVCNAME}" ; then
+                eerror "${SVCNAME} isn't running"
+                return 1
+        fi
+        checkconfig || return 1
+        /usr/local/bin/consul reload
+        eend $?
+}
