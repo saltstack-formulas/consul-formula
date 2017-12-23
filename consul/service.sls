@@ -11,6 +11,10 @@ consul-init-file:
     - source: salt://{{ slspath }}/files/consul.upstart
     - name: /etc/init/consul.conf
     - mode: 0644
+    {%- elif salt['test.provider']('service') == 'gentoo_service' %}
+    - source: salt://{{ slspath }}/files/consul.openrc
+    - name: /etc/init.d/consul
+    - mode: 0755
     {%- else %}
     - source: salt://{{ slspath }}/files/consul.sysvinit
     - name: /etc/init.d/consul
