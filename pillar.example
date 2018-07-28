@@ -6,6 +6,9 @@ consul:
   user: consul
   group: consul
 
+  version: 0.7.0
+  download_host: releases.hashicorp.com
+
   config:
     server: True
     bind_addr: 0.0.0.0
@@ -21,6 +24,10 @@ consul:
     retry_join:
       - 1.1.1.1
       - 2.2.2.2
+
+    ui: true
+    log_level: info
+    data_dir: /var/consul
 
   register:
     - name: Redis
