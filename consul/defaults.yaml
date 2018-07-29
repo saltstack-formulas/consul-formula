@@ -1,5 +1,5 @@
 consul:
-  version: 0.7.0
+  version: 1.2.1
   download_host: releases.hashicorp.com
 
   service: false
