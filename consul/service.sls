@@ -17,7 +17,7 @@ consul-init-env:
 
 consul-init-file:
   file.managed:
-    {%- if salt['test.provider']('service') == 'systemd' %}
+    {%- if salt['test.provider']('service').startswith('systemd') %}
     - source: salt://{{ slspath }}/files/consul.service
     - name: /etc/systemd/system/consul.service
     - template: jinja
