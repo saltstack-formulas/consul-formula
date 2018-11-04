@@ -14,7 +14,6 @@ consul_template:
           source: /etc/consul-template/tmpl-source/example.ctmpl
           destination: /etc/consul-template/example
   secure_download: true
-  gpg_pkg: gnupg
   hashicorp_gpg_key: |
     -----BEGIN PGP PUBLIC KEY BLOCK-----
     Version: GnuPG v1

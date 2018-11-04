@@ -21,7 +21,6 @@ consul:
   register: []
   scripts: []
   secure_download: true
-  gpg_pkg: gnupg
   hashicorp_gpg_key: |
     -----BEGIN PGP PUBLIC KEY BLOCK-----
     Version: GnuPG v1

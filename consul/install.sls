@@ -82,17 +82,12 @@ consul-data-dir:
       consul:
         {{ consul | yaml }}
 
-consul_gpg_pkg:
-  pkg.installed:
-    - name: {{ consul.gpg_pkg }}
-
 import key:
   cmd.run:
     - name: gpg --import /tmp/hashicorp.asc
     - unless: gpg --list-keys {{ consul.hashicorp_key_id }}
     - require:
       - /tmp/hashicorp.asc
-      - consul_gpg_pkg
 
 verify shasums sig:
   cmd.run:
