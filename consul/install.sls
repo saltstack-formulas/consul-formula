@@ -1,5 +1,7 @@
 {%- from slspath + '/map.jinja' import consul with context -%}
 
+{% set version = consul.version %}
+
 consul-dep-unzip:
   pkg.installed:
     - name: unzip
@@ -42,37 +44,62 @@ consul-data-dir:
     - mode: 0750
 
 # Install agent
-consul-download:
+/opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS:
   file.managed:
-    - name: /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
-    - source: https://{{ consul.download_host }}/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
-    - source_hash: https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_SHA256SUMS
-    - unless: test -f /usr/local/bin/consul-{{ consul.version }}
+    - source: https://releases.hashicorp.com/consul/{{ version }}/consul_{{ version }}_SHA256SUMS
+    - makedirs: true
+    - skip_verify: true
 
-consul-extract:
-  cmd.wait:
-    - name: unzip /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip -d /tmp
-    - watch:
-      - file: consul-download
-
-consul-install:
-  file.rename:
-    - name: /usr/local/bin/consul-{{ consul.version }}
-    - source: /tmp/consul
+/opt/consul/{{ version }}/bin:
+  archive.extracted:
+    - source: https://releases.hashicorp.com/consul/{{ version }}/consul_{{ version }}_linux_amd64.zip
+    - source_hash: /opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS
+    - enforce_toplevel: false
     - require:
-      - file: /usr/local/bin
-    - watch:
-      - cmd: consul-extract
+      - /opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS
 
-consul-clean:
-  file.absent:
-    - name: /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
-    - watch:
-      - file: consul-install
-
-consul-link:
+/usr/local/bin/consul:
   file.symlink:
-    - target: consul-{{ consul.version }}
-    - name: /usr/local/bin/consul
-    - watch:
-      - file: consul-install
+    - target: /opt/consul/{{ version }}/bin/consul
+    - force: true
+    - require:
+      - /opt/consul/{{ version }}/bin
+
+{% if consul.secure_download -%}
+/opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS.sig:
+  file.managed:
+    - source: https://releases.hashicorp.com/consul/{{ version }}/consul_{{ version }}_SHA256SUMS.sig
+    - skip_verify: true
+    - require:
+      - /opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS
+
+
+/tmp/hashicorp.asc:
+  file.managed:
+    - source: salt://{{ slspath }}/files/hashicorp.asc.jinja
+    - template: jinja
+    - context:
+      consul:
+        {{ consul | yaml }}
+
+consul_gpg_pkg:
+  pkg.installed:
+    - name: {{ consul.gpg_pkg }}
+
+import key:
+  cmd.run:
+    - name: gpg --import /tmp/hashicorp.asc
+    - unless: gpg --list-keys {{ consul.hashicorp_key_id }}
+    - require:
+      - /tmp/hashicorp.asc
+      - consul_gpg_pkg
+
+verify shasums sig:
+  cmd.run:
+    - name: gpg --verify /opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS.sig /opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS
+    - require:
+      - /opt/consul/{{ version }}/consul_{{ version }}_SHA256SUMS.sig
+      - import key
+    - prereq:
+      - /usr/local/bin/consul
+{%- endif %}
