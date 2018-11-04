@@ -11,13 +11,14 @@ consul-config:
     - context:
       content:
         {{ consul.config | yaml }}
-    - check_cmd: /usr/local/bin/consul validate
-    - tmp_ext: '.json'
     - require:
       - user: consul-user
     {%- if consul.service %}
+      - file: /usr/local/bin/consul
     - watch_in:
        - service: consul
+    - check_cmd: /usr/local/bin/consul validate
+    - tmp_ext: '.json'
     {%- endif %}
 
 {% for script in consul.scripts %}
@@ -44,11 +45,13 @@ consul-script-config:
       content:
         services:
           {{ consul.register | yaml }}
-    - check_cmd: /usr/local/bin/consul validate /etc/consul.d/config.json
-    - tmp_ext: '.json'
     - require:
       - user: consul-user
     {% if consul.service != False %}
+      - file: /usr/local/bin/consul
+      - file: /etc/consul.d/config.json
     - watch_in:
        - service: consul
+    - check_cmd: /usr/local/bin/consul validate /etc/consul.d/config.json
+    - tmp_ext: '.json'
     {% endif %}
