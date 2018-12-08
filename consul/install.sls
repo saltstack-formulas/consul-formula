@@ -13,10 +13,16 @@ consul-bin-dir:
 consul-group:
   group.present:
     - name: {{ consul.group }}
+    {% if consul.get('group_gid', None) != None -%}
+    - gid: {{ consul.group_gid }}
+    {%- endif %}
 
 consul-user:
   user.present:
     - name: {{ consul.user }}
+    {% if consul.get('user_uid', None) != None -%}
+    - uid: {{ consul.user_uid }}
+    {% endif -%}
     - groups:
       - {{ consul.group }}
     - home: {{ salt['user.info'](consul.user)['home']|default(consul.config.data_dir) }}

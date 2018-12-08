@@ -5,7 +5,9 @@ consul:
   service: false
 
   user: consul
+  user_uid:
   group: consul
+  group_gid:
 
   config:
     server: false
