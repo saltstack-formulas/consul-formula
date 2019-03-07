@@ -6,7 +6,7 @@ consul:
   user: consul
   group: consul
 
-  version: 0.7.0
+  version: 1.2.0
   download_host: releases.hashicorp.com
 
   config:
