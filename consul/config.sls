@@ -40,4 +40,4 @@ consul-script-config:
       - user: consul-user
     - formatter: json
     - dataset:
-        services: {{ consul.register | tojson }}
+        services: {{ consul.register | json }}
