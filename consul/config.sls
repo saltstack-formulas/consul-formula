@@ -3,6 +3,7 @@
 consul-config:
   file.serialize:
     - name: /etc/consul.d/config.json
+    - encoding: utf-8
     - formatter: json
     - dataset_pillar: consul:config
     - user: {{ consul.user }}
