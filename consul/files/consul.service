@@ -12,6 +12,7 @@ ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d
 ExecReload=/usr/local/bin/consul reload
 KillMode=process
 Restart=on-failure
+RestartSec=42s
 LimitNOFILE=65536
 
 [Install]
