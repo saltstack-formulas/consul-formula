@@ -1,6 +1,6 @@
 consul_template:
-  version: 0.14.0
-  hash: 7c70ea5f230a70c809333e75fdcff2f6f1e838f29cfb872e1420a63cdf7f3a78
+  version: 0.20.0
+  hash: 500fe023c89517f959175eb79e21c33df0acf7733d3f3681ec8c5238863caf86
 
   service: false
   config:
@@ -9,6 +9,7 @@ consul_template:
   tmpl:
     - name: example
       source: salt://consul-template/files/example.ctmpl
+      template_engine: null # None in Python
       config:
         template:
           source: /etc/consul-template/tmpl-source/example.ctmpl

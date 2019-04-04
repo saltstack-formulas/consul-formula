@@ -20,6 +20,7 @@ consul-template-init-script:
 consul-template-service:
   service.running:
     - name: consul-template
+    - enable: True
     - watch:
       - file: /etc/consul-template.d/*
 {% endif %}
