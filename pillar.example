@@ -9,6 +9,8 @@ consul:
   version: 0.7.0
   download_host: releases.hashicorp.com
 
+  node_id_hook: echo -n {{ grains.fqdn }} | sha256sum | python -c 'import sys; s = next(sys.stdin); sys.stdout.write("{}-{}-{}-{}-{}".format(s[0:8], s[8:12], s[12:16], s[16:20], s[20:32]))'
+
   config:
     server: True
     bind_addr: 0.0.0.0

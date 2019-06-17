@@ -47,6 +47,15 @@ consul-data-dir:
     - group: {{ consul.group }}
     - mode: 0750
 
+{%- if consul.get('node_id_hook') %}
+consul-node-id-hook:
+  cmd.run:
+    - name: {{ consul.node_id_hook }} > {{ consul.config.data_dir }}/node-id
+    - user: {{ consul.user }}
+    - group: {{ consul.group }}
+    - creates: {{ consul.config.data_dir }}/node-id
+{%- endif %}
+
 # Install agent
 consul-download:
   file.managed:
