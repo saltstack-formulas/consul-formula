@@ -1,4 +1,5 @@
-{% import_yaml slspath+"/defaults.yaml" as defaults %}
+{%- set tplroot = tpldir.split('/')[0] %}
+{% import_yaml tplroot+"/defaults.yaml" as defaults %}
 
 {% set consul = salt['pillar.get']('consul', default=defaults.consul, merge=True) %}
 
