@@ -1,4 +1,5 @@
-{%- from slspath + '/map.jinja' import consul with context -%}
+{%- set tplroot = tpldir.split('/')[0] %}
+{%- from tplroot + '/map.jinja' import consul with context -%}
 
 consul-dep-unzip:
   pkg.installed:
