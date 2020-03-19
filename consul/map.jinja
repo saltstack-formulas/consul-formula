@@ -3,7 +3,7 @@
 
 {% set consul = salt['pillar.get']('consul', default=defaults.consul, merge=True) %}
 
-{## Add any overrides based on CPU architecture. ##}
+{# Add any overrides based on CPU architecture. #}
 {% set consul = salt['grains.filter_by']({
         'armv6l': {
             "arch": 'arm'

@@ -9,7 +9,7 @@ consul-config:
     - dataset: {{ consul.config | json }}
     - user: {{ consul.user }}
     - group: {{ consul.group }}
-    - mode: 0640
+    - mode: '0640'
     - require:
       - user: consul-user
     {%- if consul.service %}
@@ -26,7 +26,7 @@ consul-script-install-{{ loop.index }}:
     - context: {{ script.get('context', {}) | yaml }}
     - user: {{ consul.user }}
     - group: {{ consul.group }}
-    - mode: 0755
+    - mode: '0755'
 {% endfor %}
 
 consul-script-config:

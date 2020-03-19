@@ -1,0 +1,9 @@
+name: consul
+os: Debian, Ubuntu, CentOS, Amazon
+os_family: Debian, RedHat
+version: 1.0.0
+release: 1
+minimum_version: 2017.7
+summary: Consul formula
+description: Formula to install and configure Hashicorp Consul
+top_level_dir: consul
