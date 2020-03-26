@@ -1,3 +1,4 @@
+---
 consul:
   version: 1.3.0
   download_host: releases.hashicorp.com
@@ -5,9 +6,9 @@ consul:
   service: false
 
   user: consul
-  user_uid:
+  user_uid: ''
   group: consul
-  group_gid:
+  group_gid: ''
 
   config:
     server: false
