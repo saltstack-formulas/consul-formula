@@ -2,6 +2,34 @@
 Changelog
 =========
 
+`1.0.0 <https://github.com/saltstack-formulas/consul-formula/compare/v0.13.0...v1.0.0>`_ (2020-12-13)
+---------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* replace deprecated ui option with ui_config (\ `3830ade <https://github.com/saltstack-formulas/consul-formula/commit/3830ade3398b42c0053f5b094497d461eed836e2>`_\ )
+
+BREAKING CHANGES
+^^^^^^^^^^^^^^^^
+
+
+* This cannot be updated in a non-breaking fashion, but
+  the least disruptive route was chosen.
+* If both ``ui`` and ``ui_config.enabled`` are set,
+  ``ui_config`` takes precedence.  Hence, the change may enable the UI on
+  machines which had previously set ``ui`` to false. This is arguably better
+  than defaulting to ``false``\ , which would disable the UI where it is
+  supposed to be enabled.
+* Removing the option entirely breaks similarly if users
+  rely on the formula defaults, since Consul's default is ``false`` and the
+  formula's default used to be ``true``.
+* The only other way to break less would be to set both
+  options, but then users would also have override both (which is not
+  obvious and very annoying) and there would still be no way forward to
+  when Consul actually removes the deprecated option.
+
 `0.13.0 <https://github.com/saltstack-formulas/consul-formula/compare/v0.12.0...v0.13.0>`_ (2020-12-13)
 -----------------------------------------------------------------------------------------------------------
 
