@@ -5,6 +5,9 @@
 # Define all YAML node anchors
 ###############################################################################
 .node_anchors:
+  # `only` (also used for `except` where applicable)
+  only_branch_master_parent_repo: &only_branch_master_parent_repo
+    - 'master@saltstack-formulas/consul-formula'
   # `stage`
   stage_lint: &stage_lint 'lint'
   stage_release: &stage_release 'release'
@@ -16,9 +19,20 @@
     name: 'myii/ssf-pre-commit:2.9.2'
     entrypoint: ['/bin/bash', '-c']
   image_semantic-release: &image_semanticrelease 'myii/ssf-semantic-release:15.14'
-  # `only` (also used for `except` where applicable)
-  only_branch_master_parent_repo: &only_branch_master_parent_repo
-    - 'master@saltstack-formulas/consul-formula'
+  # `services`
+  services_docker_dind: &services_docker_dind
+    - 'docker:dind'
+  # `variables`
+  # https://forum.gitlab.com/t/gitlab-com-ci-caching-rubygems/5627/3
+  # https://bundler.io/v1.16/bundle_config.html
+  variables_bundler: &variables_bundler
+    BUNDLE_CACHE_PATH: '${CI_PROJECT_DIR}/.cache/bundler'
+    BUNDLE_WITHOUT: 'production'
+  # `cache`
+  cache_bundler: &cache_bundler
+    key: '${CI_JOB_STAGE}'
+    paths:
+      - '${BUNDLE_CACHE_PATH}'
 
 ###############################################################################
 # Define stages and global variables
@@ -48,7 +62,7 @@ commitlint:
     - |
       if [ "${GITLAB_USER_LOGIN}" = "coqbot" ] \
       && [ "${CI_COMMIT_BRANCH}" != "master" ]; then
-        git -c user.name='Null' -c user.email='null@example.com' commit --amend -m \
+        git commit --amend -m \
           'chore: reword coqbot merge commit message for commitlint'
         export COMMITLINT_TO=HEAD
       fi
@@ -76,17 +90,9 @@ pre-commit:
 .test_instance:
   stage: *stage_test
   image: *image_dindruby
-  services:
-    - 'docker:dind'
-  # https://forum.gitlab.com/t/gitlab-com-ci-caching-rubygems/5627/3
-  # https://bundler.io/v1.16/bundle_config.html
-  variables:
-    BUNDLE_CACHE_PATH: '${CI_PROJECT_DIR}/.cache/bundler'
-    BUNDLE_WITHOUT: 'production'
-  cache:
-    key: '${CI_JOB_STAGE}'
-    paths:
-      - '${BUNDLE_CACHE_PATH}'
+  services: *services_docker_dind
+  variables: *variables_bundler
+  cache: *cache_bundler
   before_script:
     # TODO: This should work from the env vars above automatically
     - 'bundle config set path "${BUNDLE_CACHE_PATH}"'
