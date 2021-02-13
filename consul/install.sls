@@ -3,7 +3,7 @@
 
 consul-dep-unzip:
   pkg.installed:
-    - name: unzip
+    - name: {{ 'app-arch/unzip' if grains.os_family == 'Gentoo' else 'unzip' }}
 
 consul-bin-dir:
   file.directory:
