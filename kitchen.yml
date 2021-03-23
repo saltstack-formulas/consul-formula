@@ -312,6 +312,7 @@ suites:
       state_top:
         base:
           '*':
+            - consul._mapdata
             - consul
       pillars:
         top.sls:
