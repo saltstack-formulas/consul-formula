@@ -1,4 +1,6 @@
-{% from "consul-template/map.jinja" import consul_template with context %}
+{% from slspath + '/map.jinja' import consul_template with context %}
+
+{% set version = consul_template.version %}
 
 consul-template-config-dir:
   file.directory:
@@ -10,37 +12,57 @@ consul-template-template-dir:
     - makedirs: True
 
 # Install template renderer
-consul-template-download:
+/opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS:
   file.managed:
-    - name: /tmp/consul_template_{{ consul_template.version }}_linux_amd64.zip
-    - source: https://releases.hashicorp.com/consul-template/{{ consul_template.version }}/consul-template_{{ consul_template.version }}_linux_amd64.zip
-    - source_hash: sha256={{ consul_template.hash }}
-    - unless: test -f /usr/local/bin/consul-template-{{ consul_template.version }}
+    - source: https://releases.hashicorp.com/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS
+    - makedirs: true
+    - skip_verify: true
 
-consul-template-extract:
-  cmd.wait:
-    - name: unzip /tmp/consul_template_{{ consul_template.version }}_linux_amd64.zip -d /tmp
-    - watch:
-      - file: consul-template-download
-
-consul-template-install:
-  file.rename:
-    - name: /usr/local/bin/consul-template-{{ consul_template.version }}
-    - source: /tmp/consul-template
+/opt/consul-template/{{ version }}/bin:
+  archive.extracted:
+    - source: https://releases.hashicorp.com/consul-template/{{ version }}/consul-template_{{ version }}_linux_amd64.zip
+    - source_hash: /opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS
+    - enforce_toplevel: false
     - require:
-      - file: /usr/local/bin
-    - watch:
-      - cmd: consul-template-extract
+      - /opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS
 
-consul-template-clean:
-  file.absent:
-    - name: /tmp/consul_template_{{ consul_template.version }}_linux_amd64.zip
-    - watch:
-      - file: consul-template-install
-
-consul-template-link:
+/usr/local/bin/consul-template:
   file.symlink:
-    - target: consul-template-{{ consul_template.version }}
-    - name: /usr/local/bin/consul-template
-    - watch:
-      - file: consul-template-install
+    - target: /opt/consul-template/{{ version }}/bin/consul-template
+    - force: true
+    - require:
+      - /opt/consul-template/{{ version }}/bin
+
+{% if consul_template.secure_download -%}
+/opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS.sig:
+  file.managed:
+    - source: https://releases.hashicorp.com/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS.sig
+    - skip_verify: true
+    - require:
+      - /opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS
+
+
+/tmp/hashicorp.asc:
+  file.managed:
+    - source: salt://{{ slspath }}/files/hashicorp.asc.jinja
+    - template: jinja
+    - context:
+      consul_template:
+        {{ consul_template | yaml }}
+
+import key:
+  cmd.run:
+    - name: gpg --import /tmp/hashicorp.asc
+    - unless: gpg --list-keys {{ consul_template.hashicorp_key_id }}
+    - require:
+      - /tmp/hashicorp.asc
+
+verify shasums sig:
+  cmd.run:
+    - name: gpg --verify /opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS.sig /opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS
+    - require:
+      - /opt/consul-template/{{ version }}/consul-template_{{ version }}_SHA256SUMS.sig
+      - import key
+    - prereq:
+      - /usr/local/bin/consul-template
+{%- endif %}
