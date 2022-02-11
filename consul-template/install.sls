@@ -18,9 +18,9 @@ consul-template-download:
     - unless: test -f /usr/local/bin/consul-template-{{ consul_template.version }}
 
 consul-template-extract:
-  cmd.wait:
+  cmd.run:
     - name: unzip /tmp/consul_template_{{ consul_template.version }}_linux_amd64.zip -d /tmp
-    - watch:
+    - onchanges:
       - file: consul-template-download
 
 consul-template-install:

@@ -57,9 +57,9 @@ consul-download:
     - unless: test -f /usr/local/bin/consul-{{ consul.version }}
 
 consul-extract:
-  cmd.wait:
+  cmd.run:
     - name: unzip /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip -d /tmp
-    - watch:
+    - onchanges:
       - file: consul-download
 
 consul-install:
