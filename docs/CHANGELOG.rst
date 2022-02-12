@@ -2,6 +2,52 @@
 Changelog
 =========
 
+`1.0.1 <https://github.com/saltstack-formulas/consul-formula/compare/v1.0.0...v1.0.1>`_ (2022-02-12)
+--------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **install:** use correct ``unzip`` package name for ``Gentoo`` (\ `a8ee3ae <https://github.com/saltstack-formulas/consul-formula/commit/a8ee3aed313f65d7a03c4112c6f4f75709830727>`_\ )
+
+Code Refactoring
+^^^^^^^^^^^^^^^^
+
+
+* **salt-lint:** fix violations (\ `bf73fca <https://github.com/saltstack-formulas/consul-formula/commit/bf73fca44b41f00c86d3151a74c36e8040103930>`_\ )
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* update linters to latest versions [skip ci] (\ `53f6d33 <https://github.com/saltstack-formulas/consul-formula/commit/53f6d33c06e31e14daf6e3be314e497a6709c8f4>`_\ )
+* **3003.1:** update inc. AlmaLinux, Rocky & ``rst-lint`` [skip ci] (\ `100f869 <https://github.com/saltstack-formulas/consul-formula/commit/100f869279a779bcc8879f96598e619a7456c01b>`_\ )
+* **commitlint:** ensure ``upstream/master`` uses main repo URL [skip ci] (\ `c0fc41f <https://github.com/saltstack-formulas/consul-formula/commit/c0fc41f79bcb9d808e9256b847380d99b83e2ba0>`_\ )
+* **gemfile:** allow rubygems proxy to be provided as an env var [skip ci] (\ `ae4f178 <https://github.com/saltstack-formulas/consul-formula/commit/ae4f17808ae8e2deb4e931c74b6f02d18613c994>`_\ )
+* **gemfile+lock:** use ``ssf`` customised ``inspec`` repo [skip ci] (\ `4538659 <https://github.com/saltstack-formulas/consul-formula/commit/4538659d97351dba8f3f1e59895aaaca083af47c>`_\ )
+* **gemfile+lock:** use ``ssf`` customised ``kitchen-docker`` repo [skip ci] (\ `1b8393c <https://github.com/saltstack-formulas/consul-formula/commit/1b8393cfb53c6a3598dee1e0b40c56506abab1cd>`_\ )
+* **gitlab-ci:** add ``rubocop`` linter (with ``allow_failure``\ ) [skip ci] (\ `fddea73 <https://github.com/saltstack-formulas/consul-formula/commit/fddea731fee9cea4d5fcc9343467156c74b468ed>`_\ )
+* **gitlab-ci:** use GitLab CI as Travis CI replacement (\ `f58d76f <https://github.com/saltstack-formulas/consul-formula/commit/f58d76f5565be12433d078e26080c0e209dc70a8>`_\ )
+* **kitchen:** move ``provisioner`` block & update ``run_command`` [skip ci] (\ `ae1833c <https://github.com/saltstack-formulas/consul-formula/commit/ae1833c43c61928fc4e13d5d73279b2cb7f4833e>`_\ )
+* **kitchen+ci:** update with ``3004`` pre-salted images/boxes [skip ci] (\ `f9bc278 <https://github.com/saltstack-formulas/consul-formula/commit/f9bc278ea1fb415b54477f0ff3dd0db0cc212652>`_\ )
+* **kitchen+ci:** update with latest ``3003.2`` pre-salted images [skip ci] (\ `fc1ed54 <https://github.com/saltstack-formulas/consul-formula/commit/fc1ed5464beac4245fd453c555a5962bcfc96d17>`_\ )
+* **kitchen+ci:** update with latest CVE pre-salted images [skip ci] (\ `6988c3f <https://github.com/saltstack-formulas/consul-formula/commit/6988c3f0304c55ea50ba24f1592627f6e5a1faec>`_\ )
+* **kitchen+ci:** use latest pre-salted images (after CVE) [skip ci] (\ `1b036c3 <https://github.com/saltstack-formulas/consul-formula/commit/1b036c349cd621828c656f1add3e2d8998ff390a>`_\ )
+* **kitchen+gitlab:** adjust matrix to add ``3003`` [skip ci] (\ `80037f8 <https://github.com/saltstack-formulas/consul-formula/commit/80037f87cfdea32c62e3c50c60c3825f17358de1>`_\ )
+* **kitchen+gitlab:** remove Ubuntu 16.04 & Fedora 32 (EOL) [skip ci] (\ `33bfe13 <https://github.com/saltstack-formulas/consul-formula/commit/33bfe1392547b49e0b55dedef3d0c099a64c43ea>`_\ )
+* **kitchen+gitlab:** update for new pre-salted images [skip ci] (\ `0ab6348 <https://github.com/saltstack-formulas/consul-formula/commit/0ab6348571235fcf65ad3c922d948848905628ba>`_\ )
+* add ``arch-master`` to matrix and update ``.travis.yml`` [skip ci] (\ `d7f0250 <https://github.com/saltstack-formulas/consul-formula/commit/d7f02505f3f4d172fcc4c78d825f10cfc8edbb28>`_\ )
+* add Debian 11 Bullseye & update ``yamllint`` configuration [skip ci] (\ `6790314 <https://github.com/saltstack-formulas/consul-formula/commit/67903143f6daa76622faaa8d024ee42c87656a09>`_\ )
+* **kitchen+gitlab-ci:** use latest pre-salted images [skip ci] (\ `95978ee <https://github.com/saltstack-formulas/consul-formula/commit/95978ee1954a8212ef3c7985e6b49f7c038c112d>`_\ )
+* **pre-commit:** update hook for ``rubocop`` [skip ci] (\ `c518638 <https://github.com/saltstack-formulas/consul-formula/commit/c51863804186f5a9019918a31175a2f1a1ba6d42>`_\ )
+
+Tests
+^^^^^
+
+
+* standardise use of ``share`` suite & ``_mapdata`` state [skip ci] (\ `13db8f4 <https://github.com/saltstack-formulas/consul-formula/commit/13db8f4f61147c427a0761838cec9f7aa7257731>`_\ )
+
 `1.0.0 <https://github.com/saltstack-formulas/consul-formula/compare/v0.13.0...v1.0.0>`_ (2020-12-13)
 ---------------------------------------------------------------------------------------------------------
 
