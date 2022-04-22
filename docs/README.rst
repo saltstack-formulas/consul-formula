@@ -14,8 +14,7 @@ consul
    :scale: 100%
    :target: https://github.com/semantic-release/semantic-release
 
-A SaltStack formula that is empty. It has dummy content to help with a quick
-start on a new formula and it serves as a style guide.
+Formula to install and configure Hashicorp Consul.
 
 .. contents:: **Table of Contents**
 
