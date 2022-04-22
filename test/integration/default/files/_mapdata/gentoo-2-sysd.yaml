@@ -1,0 +1,29 @@
+# yamllint disable rule:indentation rule:line-length
+# Gentoo-2
+---
+values:
+  arch: amd64
+  config:
+    bind_addr: 0.0.0.0
+    bootstrap_expect: 3
+    data_dir: /var/consul
+    datacenter: eu
+    enable_debug: true
+    encrypt: RIxqpNlOXqtr/j4BgvIMEw==
+    log_level: info
+    retry_interval: 15s
+    retry_join:
+    - 1.1.1.1
+    - 2.2.2.2
+    server: true
+    ui_config:
+      enabled: true
+  download_host: releases.hashicorp.com
+  group: consul
+  group_gid: ''
+  register: []
+  scripts: []
+  service: true
+  user: consul
+  user_uid: ''
+  version: 1.9.0
