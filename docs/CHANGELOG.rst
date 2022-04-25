@@ -2,6 +2,28 @@
 Changelog
 =========
 
+`1.0.2 <https://github.com/saltstack-formulas/consul-formula/compare/v1.0.1...v1.0.2>`_ (2022-04-25)
+--------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **kitchen+gitlab:** update for new pre-salted images [skip ci] (\ `897ba26 <https://github.com/saltstack-formulas/consul-formula/commit/897ba268a1afb35b1cdee8e5703b068a8ae9dd86>`_\ )
+
+Documentation
+^^^^^^^^^^^^^
+
+
+* **readme:** add correct description [skip ci] (\ `5563e25 <https://github.com/saltstack-formulas/consul-formula/commit/5563e25b9d9a81f09f755c80a537bb970ffceef5>`_\ )
+
+Tests
+^^^^^
+
+
+* **map:** verify ``map.jinja`` dump using ``_mapdata`` state (\ `2043908 <https://github.com/saltstack-formulas/consul-formula/commit/204390868fe20e60db95021bb331ddfdb68dc758>`_\ )
+* **system:** add ``build_platform_codename`` [skip ci] (\ `2d97668 <https://github.com/saltstack-formulas/consul-formula/commit/2d976680c1840093cbe8dead04886415f53230e6>`_\ )
+
 `1.0.1 <https://github.com/saltstack-formulas/consul-formula/compare/v1.0.0...v1.0.1>`_ (2022-02-12)
 --------------------------------------------------------------------------------------------------------
 
