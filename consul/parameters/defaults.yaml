@@ -7,13 +7,19 @@ values:
   version: 1.9.0
   download_host: releases.hashicorp.com
 
+  service_path: /etc/systemd/system/consul.service
+  service_mode: '0644'
+  service_env_path: /etc/sysconfig/consul
   service: false
 
   user: consul
   user_uid: ''
   group: consul
   group_gid: ''
+  rootgroup: root
 
+  bin_dir: /usr/local/bin/
+  config_dir: /etc/consul.d/
   config:
     server: false
     bind_addr: 0.0.0.0

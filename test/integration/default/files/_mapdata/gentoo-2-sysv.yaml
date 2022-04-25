@@ -3,6 +3,7 @@
 ---
 values:
   arch: amd64
+  bin_dir: "/usr/local/bin/"
   config:
     bind_addr: 0.0.0.0
     bootstrap_expect: 3
@@ -18,6 +19,7 @@ values:
     server: true
     ui_config:
       enabled: true
+  config_dir: "/etc/consul.d/"
   download_host: releases.hashicorp.com
   group: consul
   group_gid: ''
@@ -27,12 +29,17 @@ values:
     - Y:G@os_family
     - Y:G@os
     - Y:G@osfinger
+    - Y:G@init
     - C@consul:lookup
     - C@consul
     - Y:G@id
   register: []
+  rootgroup: root
   scripts: []
   service: true
+  service_env_path: "/etc/init.d/consul"
+  service_mode: '0644'
+  service_path: "/etc/systemd/system/consul.service"
   user: consul
   user_uid: ''
   version: 1.9.0

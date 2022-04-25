@@ -3,13 +3,13 @@ Description="HashiCorp Consul - A service mesh solution"
 Documentation=https://www.consul.io/
 Requires=network-online.target
 After=network-online.target
-ConditionFileNotEmpty=/etc/consul.d/config.json
+ConditionFileNotEmpty={{ config_dir }}config.json
 
 [Service]
 User={{ user }}
 Group={{ group }}
-ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d
-ExecReload=/usr/local/bin/consul reload
+ExecStart={{ bin_dir }}consul agent -config-dir={{ config_dir }}
+ExecReload={{ bin_dir }}consul reload
 KillMode=process
 Restart=on-failure
 RestartSec=42s

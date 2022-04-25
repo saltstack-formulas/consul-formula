@@ -7,7 +7,7 @@
 
 consul-config:
   file.serialize:
-    - name: /etc/consul.d/config.json
+    - name: {{ consul.config_dir ~ 'config.json' }}
     - encoding: utf-8
     - formatter: json
     - dataset: {{ consul.config | json }}
@@ -35,7 +35,7 @@ consul-script-install-{{ loop.index }}:
 
 consul-script-config:
   file.serialize:
-    - name: /etc/consul.d/services.json
+    - name: {{ consul.config_dir ~ 'services.json' }}
     {% if consul.service != False %}
     - watch_in:
        - service: consul
