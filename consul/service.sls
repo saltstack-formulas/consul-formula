@@ -30,6 +30,7 @@ consul-init-file:
     - context:
         bin_dir : {{ consul.bin_dir }}
         config_dir : {{ consul.config_dir }}
+        data_dir: {{ consul.config.data_dir }}
         group : {{ consul.group }}
         service_env_path : {{ consul.service_env_path }}
         user : {{ consul.user }}
