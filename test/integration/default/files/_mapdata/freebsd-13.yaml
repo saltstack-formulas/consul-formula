@@ -1,0 +1,45 @@
+# yamllint disable rule:indentation rule:line-length
+# FreeBSD 13
+---
+values:
+  arch: amd64
+  bin_dir: /usr/local/bin/
+  config:
+    bind_addr: 0.0.0.0
+    bootstrap_expect: 3
+    data_dir: /var/consul
+    datacenter: eu
+    enable_debug: true
+    encrypt: RIxqpNlOXqtr/j4BgvIMEw==
+    log_level: info
+    retry_interval: 15s
+    retry_join:
+    - 1.1.1.1
+    - 2.2.2.2
+    server: true
+    ui_config:
+      enabled: true
+  config_dir: /usr/local/etc/consul.d/
+  download_host: releases.hashicorp.com
+  group: consul
+  group_gid: ''
+  map_jinja:
+    sources:
+    - Y:G@cpuarch
+    - Y:G@os_family
+    - Y:G@os
+    - Y:G@osfinger
+    - Y:G@init
+    - C@consul:lookup
+    - C@consul
+    - Y:G@id
+  register: []
+  rootgroup: wheel
+  scripts: []
+  service: true
+  service_env_path: /etc/defaults/consul.conf
+  service_mode: '0755'
+  service_path: /usr/local/etc/rc.d/consul
+  user: consul
+  user_uid: ''
+  version: 1.9.0
