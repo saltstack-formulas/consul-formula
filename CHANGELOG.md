@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.1.0](https://github.com/saltstack-formulas/consul-formula/compare/v1.0.2...v1.1.0) (2022-04-27)
+
+
+### Features
+
+* **map:** update to v5 `map.jinja` ([2968032](https://github.com/saltstack-formulas/consul-formula/commit/296803292e6f20e276ae0bddf679a17d541f8c18))
+
+
+### Tests
+
+* **_mapdata:** fix `CentOS 8` name in integration file [skip ci] ([a8fe75a](https://github.com/saltstack-formulas/consul-formula/commit/a8fe75a9d8c61be612df1ba21b2ad8a5e8d4e3c6))
+
 ## [1.0.2](https://github.com/saltstack-formulas/consul-formula/compare/v1.0.1...v1.0.2) (2022-04-25)
 
 
