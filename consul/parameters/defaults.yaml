@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set default values.
 ---
-consul:
+values:
   version: 1.9.0
   download_host: releases.hashicorp.com
 
@@ -24,3 +28,4 @@ consul:
     datacenter: "main"
   register: []
   scripts: []
+...

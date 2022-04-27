@@ -21,6 +21,15 @@ values:
   download_host: releases.hashicorp.com
   group: consul
   group_gid: ''
+  map_jinja:
+    sources:
+    - Y:G@cpuarch
+    - Y:G@os_family
+    - Y:G@os
+    - Y:G@osfinger
+    - C@consul:lookup
+    - C@consul
+    - Y:G@id
   register: []
   scripts: []
   service: true
