@@ -11,7 +11,7 @@ consul-dep-unzip:
 
 consul-bin-dir:
   file.directory:
-    - name: /usr/local/bin
+    - name: {{ consul.bin_dir }}
     - makedirs: True
 
 # Create consul user
@@ -39,7 +39,7 @@ consul-user:
 # Create directories
 consul-config-dir:
   file.directory:
-    - name: /etc/consul.d
+    - name: {{ consul.config_dir }}
     - user: {{ consul.user }}
     - group: {{ consul.group }}
     - mode: '0750'
@@ -58,7 +58,7 @@ consul-download:
     - name: /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
     - source: https://{{ consul.download_host }}/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
     - source_hash: https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_SHA256SUMS
-    - unless: test -f /usr/local/bin/consul-{{ consul.version }}
+    - unless: test -f {{ consul.bin_dir ~ 'consul-' ~ consul.version }}
 
 consul-extract:
   cmd.run:
@@ -68,10 +68,10 @@ consul-extract:
 
 consul-install:
   file.rename:
-    - name: /usr/local/bin/consul-{{ consul.version }}
+    - name: {{ consul.bin_dir ~ 'consul-' ~ consul.version }}
     - source: /tmp/consul
     - require:
-      - file: /usr/local/bin
+      - file: {{ consul.bin_dir }}
     - watch:
       - cmd: consul-extract
 
@@ -84,6 +84,6 @@ consul-clean:
 consul-link:
   file.symlink:
     - target: consul-{{ consul.version }}
-    - name: /usr/local/bin/consul
+    - name: {{ consul.bin_dir ~ 'consul' }}
     - watch:
       - file: consul-install

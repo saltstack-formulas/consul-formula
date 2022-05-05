@@ -9,6 +9,7 @@ values:
     - "Y:G@os_family"
     - "Y:G@os"
     - "Y:G@osfinger"
+    - "Y:G@init"
     - "C@consul:lookup"
     - "C@consul"
     - "Y:G@id"

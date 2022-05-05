@@ -6,8 +6,8 @@ stop on runlevel [!2345]
 respawn
 
 script
-  if [ -f /etc/default/consul ]; then
-    . /etc/default/consul
+  if [ -f {{ service_env_path }} ]; then
+    . {{ service_env_path }}
   fi
 
   # Make sure to use all our CPUs, because Consul can block a scheduler thread
@@ -17,9 +17,9 @@ script
   BIND=`ifconfig eth0 | grep "inet addr" | awk '{ print substr($2,6) }'`
 
   exec start-stop-daemon --start \
-    --chuid ${CONSUL_USER:-consul}:${CONSUL_GROUP:-consul} \
-    --exec /usr/local/bin/consul agent -- \
-      -config-dir="/etc/consul.d" \
+    --chuid ${CONSUL_USER:-{{ user ~ '}' }}:${CONSUL_GROUP:-{{ group ~ '}' }} \
+    --exec {{ bin_dir }}consul agent -- \
+      -config-dir="{{ config_dir }}" \
       ${CONSUL_FLAGS} \
       >> /var/log/consul.log 2>&1
 end script

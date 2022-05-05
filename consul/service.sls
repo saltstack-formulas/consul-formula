@@ -4,17 +4,14 @@
 {#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as consul with context %}
+{%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
 consul-init-env:
   file.managed:
-    {%- if grains['os_family'] == 'Debian' %}
-    - name: /etc/default/consul
-    {%- else %}
-    - name: /etc/sysconfig/consul
+    - name: {{ consul.service_env_path }}
     - makedirs: True
-    {%- endif %}
     - user: root
-    - group: root
+    - group: {{ consul.rootgroup }}
     - mode: '0644'
     - contents:
       - CONSUL_USER={{ consul.user }}
@@ -22,23 +19,20 @@ consul-init-env:
 
 consul-init-file:
   file.managed:
-    {%- if salt['test.provider']('service').startswith('systemd') %}
-    - source: salt://{{ tplroot }}/files/consul.service
-    - name: /etc/systemd/system/consul.service
+    - name: {{ consul.service_path }}
+    - source: {{ files_switch(['consul_service_unit.jinja'],
+                              lookup='consul-init-file',
+                              default_files_switch=["id", "init", "os_family"]
+                 )
+              }}
+    - mode: {{ consul.service_mode }}
     - template: jinja
     - context:
-        user: {{ consul.user }}
-        group: {{ consul.group }}
-    - mode: '0644'
-    {%- elif salt['test.provider']('service') == 'upstart' %}
-    - source: salt://{{ tplroot }}/files/consul.upstart
-    - name: /etc/init/consul.conf
-    - mode: '0644'
-    {%- else %}
-    - source: salt://{{ tplroot }}/files/consul.sysvinit
-    - name: /etc/init.d/consul
-    - mode: '0755'
-    {%- endif %}
+        bin_dir : {{ consul.bin_dir }}
+        config_dir : {{ consul.config_dir }}
+        group : {{ consul.group }}
+        service_env_path : {{ consul.service_env_path }}
+        user : {{ consul.user }}
 
 {%- if consul.service %}
 
