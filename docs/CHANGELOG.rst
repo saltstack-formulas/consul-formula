@@ -2,6 +2,15 @@
 Changelog
 =========
 
+`1.1.1 <https://github.com/saltstack-formulas/consul-formula/compare/v1.1.0...v1.1.1>`_ (2022-05-05)
+--------------------------------------------------------------------------------------------------------
+
+Code Refactoring
+^^^^^^^^^^^^^^^^
+
+
+* use of ``mapdata`` and ``libtofs`` (\ `c287bdc <https://github.com/saltstack-formulas/consul-formula/commit/c287bdcf77a409426b4e44a1e5d47611fceb6622>`_\ )
+
 `1.1.0 <https://github.com/saltstack-formulas/consul-formula/compare/v1.0.2...v1.1.0>`_ (2022-04-27)
 --------------------------------------------------------------------------------------------------------
 
