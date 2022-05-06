@@ -55,14 +55,14 @@ consul-data-dir:
 # Install agent
 consul-download:
   file.managed:
-    - name: /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
-    - source: https://{{ consul.download_host }}/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
+    - name: /tmp/consul_{{ consul.version }}_{{ grains.kernel | lower }}_{{ consul.arch }}.zip
+    - source: https://{{ consul.download_host }}/consul/{{ consul.version }}/consul_{{ consul.version }}_{{ grains.kernel | lower }}_{{ consul.arch }}.zip
     - source_hash: https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_SHA256SUMS
     - unless: test -f {{ consul.bin_dir ~ 'consul-' ~ consul.version }}
 
 consul-extract:
   cmd.run:
-    - name: unzip /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip -d /tmp
+    - name: unzip /tmp/consul_{{ consul.version }}_{{ grains.kernel | lower }}_{{ consul.arch }}.zip -d /tmp
     - onchanges:
       - file: consul-download
 
@@ -77,7 +77,7 @@ consul-install:
 
 consul-clean:
   file.absent:
-    - name: /tmp/consul_{{ consul.version }}_linux_{{ consul.arch }}.zip
+    - name: /tmp/consul_{{ consul.version }}_{{ grains.kernel | lower }}_{{ consul.arch }}.zip
     - watch:
       - file: consul-install
 

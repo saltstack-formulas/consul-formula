@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set default values.
+---
+values:
+  service_path: /usr/local/etc/rc.d/consul
+  service_mode: '0755'
+  service_env_path: /etc/defaults/consul.conf
+  rootgroup: wheel
+  config_dir: /usr/local/etc/consul.d/
+  config:
+    data_dir: /var/db/consul/
+...
