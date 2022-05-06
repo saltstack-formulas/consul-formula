@@ -2,6 +2,27 @@
 Changelog
 =========
 
+`1.2.0 <https://github.com/saltstack-formulas/consul-formula/compare/v1.1.1...v1.2.0>`_ (2022-05-06)
+--------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **gemfile.lock:** fix erroneous indentation (\ `84e5f14 <https://github.com/saltstack-formulas/consul-formula/commit/84e5f1416bf8b2861824f8cd3bb1b49b2cd228dc>`_\ )
+
+Features
+^^^^^^^^
+
+
+* **freebsd:** add ``FreeBSD`` support (\ `c49d33b <https://github.com/saltstack-formulas/consul-formula/commit/c49d33b921275297d101f9fbaf1e79de6c029842>`_\ )
+
+Tests
+^^^^^
+
+
+* **freebsd:** add ``kitchen`` ``FreeBSD`` recipes and ``github`` workflow (\ `09f60fd <https://github.com/saltstack-formulas/consul-formula/commit/09f60fd11c8a8cd300bdc7e47311ddcb4e165fed>`_\ )
+
 `1.1.1 <https://github.com/saltstack-formulas/consul-formula/compare/v1.1.0...v1.1.1>`_ (2022-05-05)
 --------------------------------------------------------------------------------------------------------
 
