@@ -389,7 +389,7 @@ GEM
       hashie (>= 3.5)
       test-kitchen (>= 1.4)
     kitchen-vagrant (1.11.0)
-       test-kitchen (>= 1.4, < 4)
+      test-kitchen (>= 1.4, < 4)
     license-acceptance (2.1.13)
       pastel (~> 0.7)
       tomlrb (>= 1.2, < 3.0)
