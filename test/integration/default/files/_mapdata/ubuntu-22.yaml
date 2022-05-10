@@ -1,0 +1,45 @@
+# yamllint disable rule:indentation rule:line-length
+# Ubuntu-20.04
+---
+values:
+  arch: amd64
+  bin_dir: "/usr/local/bin/"
+  config:
+    bind_addr: 0.0.0.0
+    bootstrap_expect: 3
+    data_dir: /var/consul
+    datacenter: eu
+    enable_debug: true
+    encrypt: RIxqpNlOXqtr/j4BgvIMEw==
+    log_level: info
+    retry_interval: 15s
+    retry_join:
+    - 1.1.1.1
+    - 2.2.2.2
+    server: true
+    ui_config:
+      enabled: true
+  config_dir: "/etc/consul.d/"
+  download_host: releases.hashicorp.com
+  group: consul
+  group_gid: ''
+  map_jinja:
+    sources:
+    - Y:G@cpuarch
+    - Y:G@os_family
+    - Y:G@os
+    - Y:G@osfinger
+    - Y:G@init
+    - C@consul:lookup
+    - C@consul
+    - Y:G@id
+  register: []
+  rootgroup: root
+  scripts: []
+  service: true
+  service_env_path: "/etc/default/consul"
+  service_mode: '0644'
+  service_path: "/etc/systemd/system/consul.service"
+  user: consul
+  user_uid: ''
+  version: 1.9.0
