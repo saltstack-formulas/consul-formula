@@ -1,5 +1,5 @@
 # yamllint disable rule:indentation rule:line-length
-# Ubuntu-20.04
+# Ubuntu-22.04
 ---
 values:
   arch: amd64
