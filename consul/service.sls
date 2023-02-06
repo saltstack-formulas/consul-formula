@@ -44,5 +44,6 @@ consul-service:
     - watch:
       - file: consul-init-env
       - file: consul-init-file
+      - file: consul-link
 
 {%- endif %}
